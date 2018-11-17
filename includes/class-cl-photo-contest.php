@@ -67,8 +67,8 @@ class Cl_Photo_Contest {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'PLUGIN_NAME_VERSION' ) ) {
-			$this->version = PLUGIN_NAME_VERSION;
+		if ( defined( 'CL_PHOTO_CONTEST_VERSION' ) ) {
+			$this->version = CL_PHOTO_CONTEST_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
