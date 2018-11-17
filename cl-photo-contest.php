@@ -40,8 +40,8 @@ define( 'CL_PHOTO_CONTEST_VERSION', '1.0.0' );
 define( 'CL_PHOTO_CONTEST_PLUGIN_URL', plugin_dir_url( __FILE__ ) ); // plugin URL.
 define( 'CL_PHOTO_CONTEST_PLUGIN_PATH', plugin_dir_path( __FILE__ ) ); // plugin PATH.
 
-// TODO: Change to wp-contect not fixed.
-define( 'CL_PHOTO_CONTEST_UPLOAD_PATH', ABSPATH . 'wp-content/cl-photo-contest/' ); // Pdf files path.
+$cl_photo_contest_upload_dir = wp_upload_dir();
+define( 'CL_PHOTO_CONTEST_UPLOAD_PATH', $cl_photo_contest_upload_dir['basedir'] . '/cl-photo-contest/' ); // Photo files path.
 
 /**
  * The code that runs during plugin activation.
