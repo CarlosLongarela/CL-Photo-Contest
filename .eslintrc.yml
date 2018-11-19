@@ -3,8 +3,6 @@ env:
   jquery: true
   node: true
 
-globals:
-
 extends: 'eslint:recommended'
 
 rules:
