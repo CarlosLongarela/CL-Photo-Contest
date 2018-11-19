@@ -99,14 +99,72 @@ class Cl_Photo_Contest_Public {
 	}
 
 	/**
-	 * Shortcode for Show input form for upload photosto contest.
+	 * Check if Id Contest is valid and active.
 	 *
-	 * Shortecode [cl_sc_create_quest].
+	 * @param int $id_contest Id Contest.
 	 *
 	 * @since    1.0.0
 	 */
-	public function shortcode_cl_photo_contest_form() {
-		include_once CL_PHOTO_CONTEST_PLUGIN_PATH . 'public/partials/cl-photo-contest-public-upload-form.php';
+	protected function get_valid_contest( $id_contest ) {
+		global $wpdb;
+
+		$res = $wpdb->get_row( $wpdb->prepare(
+			"SELECT id, active_from, active_to FROM {$wpdb->prefix}cl_photo_contests WHERE id = %d",
+			$id_contest
+		) );
+
+		$res->id;
+		$res->active_from;
+		$res->active_to;
+		$now = strtotime( 'now' );
+
+		if ( empty( $res->id ) ) {
+			return esc_html__( 'There is no photo contest with that Id', 'cl-photo-contest' );
+		}
+
+		if ( ( $now >= strtotime( $res->active_from ) ) && ( $now <= strtotime( $res->active_to ) ) ) {
+			return true;
+		} elseif ( $now < strtotime( $res->active_from ) ) {
+			return esc_html__( 'The contest start date has not yet arrived', 'cl-photo-contest' );
+		} elseif ( $now > strtotime( $res->active_to ) ) {
+			return esc_html__( 'The contest has finished', 'cl-photo-contest' );
+		}
+	}
+
+	/**
+	 * Shortcode for Show input form for upload photosto contest.
+	 *
+	 * Shortecode [sc_cl_photo_contest_form id_contest="1972" upload_max_filesize="2097152"].
+	 * (id_contest to show form).
+	 * (upload max file size in bytes).
+	 *
+	 * @param array $atts Shortcode attributes.
+	 *
+	 * @since    1.0.0
+	 */
+	public function shortcode_cl_photo_contest_form( $atts ) {
+		$id_contest          = (int) $atts['id_contest'];
+		$upload_max_filesize = (int) $atts['upload_max_filesize'];
+
+		if ( empty( $id_contest ) ) {
+			return esc_html__( 'You must provide a contest Id', 'cl-photo-contest' );
+		}
+
+		$valid_contest = $this->get_valid_contest( $id_contest );
+
+		if ( true !== $valid_contest ) {
+			return $valid_contest;
+		}
+
+		if ( empty( $upload_max_filesize ) ) {
+			$cl_upload_max_size = ini_get( 'upload_max_filesize' );
+		}
+
+		ob_start();
+		require_once CL_PHOTO_CONTEST_PLUGIN_PATH . 'public/partials/cl-photo-contest-public-upload-form.php';
+		$res = ob_get_clean();
+
+		return apply_filters( 'cl_photo_contest_form_sc', $res );
 	}
 
 }
