@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
@@ -44,13 +43,13 @@ class Cl_Photo_Contest_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of the plugin.
+	 * @param      string $version           The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -97,7 +96,24 @@ class Cl_Photo_Contest_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/cl-photo-contest-public.js', array( 'jquery' ), $this->version, false );
+	}
 
+	public function show_upload_photo_form() {
+	?>
+		<form action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post" enctype="multipart/form-data">
+			<?php wp_nonce_field( 'submit_content', 'my_nonce_field' ); ?>
+
+			<p><label><input type="text" name="post_title" placeholder="<?php esc_html_e( 'Enter a photo title', 'cl-photo-contest' ); ?>"></label></p>
+			<p><label><textarea name="post_content" placeholder="<?php esc_html_e( 'Optional photo description', 'cl-photo-contest' ); ?>"></textarea></label></p>
+
+			<p><input type="file" name="image" accept='image/*'></p>
+
+			<p>
+				<input type="hidden" name="action" value="submit_content">
+				<input type="submit" value="<?php esc_html_e( 'Submit Photo', 'cl-photo-contest' ); ?>">
+			</p>
+		</form>
+	<?php
 	}
 
 }

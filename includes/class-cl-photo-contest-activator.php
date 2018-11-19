@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired during plugin activation
  *
@@ -67,7 +66,7 @@ class Cl_Photo_Contest_Activator {
 		PRIMARY KEY  (id)
 		) " . $charset_collate . ';';
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
 	}
 
