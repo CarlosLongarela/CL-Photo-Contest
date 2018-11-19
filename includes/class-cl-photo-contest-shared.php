@@ -85,13 +85,19 @@ class Cl_Photo_Contest_Shared {
 	public function cl_get_image_dimensions( $image_path ) {
 		$image_dimensions = getimagesize( $image_path );
 
-		$image_width  = $image_dimensions['width'];
-		$image_height = $image_dimensions['height'];
+		$res['image_width']      = $image_dimensions['width'];
+		$res['image_height']     = $image_dimensions['height'];
+		$res['image_proportion'] = $res['image_width'] / $res['image_height'];
 
-		if ( $image_width > $image_height ) { // Image is landscape mode.
-		} else { // Image is portrait mode (or square 1:1).
-
+		if ( 1 < $res['image_proportion'] ) { // Image is in landscape mode.
+			$res['image_mode'] = 'landscape';
+		if ( 1 === $res['image_proportion'] ) { // Image is square (1:1).
+			$res['image_mode'] = 'square';
+		} else { // Image is portrait mode.
+			$res['image_mode'] = 'portrait';
 		}
+
+		return $res;
 	}
 
 	public function cl_upload_file( $file ) {
