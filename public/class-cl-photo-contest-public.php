@@ -132,7 +132,7 @@ class Cl_Photo_Contest_Public {
 	}
 
 	/**
-	 * Shortcode for Show input form for upload photosto contest.
+	 * Shortcode for Show input form for upload photos to contest.
 	 *
 	 * Shortecode [sc_cl_photo_contest_form id_contest="1972" upload_max_filesize="2097152"].
 	 * (id_contest to show form).
@@ -167,4 +167,35 @@ class Cl_Photo_Contest_Public {
 		return apply_filters( 'cl_photo_contest_form_sc', $res );
 	}
 
+	/**
+	 * Shortcode for Show input form for upload photosto contest.
+	 *
+	 * Shortecode [sc_cl_photo_contest_pages id_contest="1972" photos_by_page="40"].
+	 * (id_contest to show pages).
+	 * (photos_by_page).
+	 *
+	 * @param array $atts Shortcode attributes.
+	 *
+	 * @since    1.0.0
+	 */
+	public function shortcode_cl_photo_contest_pages( $atts ) {
+		$id_contest     = (int) $atts['id_contest'];
+		$photos_by_page = (int) $atts['photos_by_page'];
+
+		if ( empty( $id_contest ) ) {
+			return esc_html__( 'You must provide a contest Id', 'cl-photo-contest' );
+		}
+
+		$valid_contest = $this->get_valid_contest( $id_contest );
+
+		if ( true !== $valid_contest ) {
+			return $valid_contest;
+		}
+
+		ob_start();
+		require_once CL_PHOTO_CONTEST_PLUGIN_PATH . 'public/partials/cl-photo-contest-public-photo-page.php';
+		$res = ob_get_clean();
+
+		return apply_filters( 'cl_photo_contest_page_sc', $res );
+	}
 }
