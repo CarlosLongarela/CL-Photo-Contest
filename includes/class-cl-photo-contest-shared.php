@@ -82,16 +82,25 @@ class Cl_Photo_Contest_Shared {
 		);
 	}
 
+	/**
+	 * Return image dimensions and proportion.
+	 *
+	 * @param string $image_path    Valid image name and path.
+	 */
 	public function cl_get_image_dimensions( $image_path ) {
 		$image_dimensions = getimagesize( $image_path );
 
-		$res['image_width']      = $image_dimensions['width'];
-		$res['image_height']     = $image_dimensions['height'];
+		if ( false === $image_dimensions ) { // No recognised as image type.
+			return false;
+		}
+
+		$res['image_width']      = $image_dimensions[0];
+		$res['image_height']     = $image_dimensions[1];
 		$res['image_proportion'] = $res['image_width'] / $res['image_height'];
 
 		if ( 1 < $res['image_proportion'] ) { // Image is in landscape mode.
 			$res['image_mode'] = 'landscape';
-		if ( 1 === $res['image_proportion'] ) { // Image is square (1:1).
+		} elseif ( 1 === $res['image_proportion'] ) { // Image is square (1:1).
 			$res['image_mode'] = 'square';
 		} else { // Image is portrait mode.
 			$res['image_mode'] = 'portrait';
@@ -100,19 +109,30 @@ class Cl_Photo_Contest_Shared {
 		return $res;
 	}
 
+	/**
+	 * Upload a file to directory.
+	 *
+	 * @param array $file    File array.
+	 */
 	public function cl_upload_file( $file ) {
 		$upload = wp_upload_bits( $file['name'], '', wp_remote_get( $file['tmp_name'] ) );
-
-		$wp_filetype = wp_check_filetype( basename( $upload['file'] ), null );
-
-		wp_redirect( site_url() . '/thank-you/' );
 	}
 
-	public function cl_image_resize( $image_path ) {
+	/**
+	 * Resize a image and save serult file.
+	 *
+	 * @param string $image_path     Original image path.
+	 * @param int    $image_quality  New image quality from 0 to 100 (default 70).
+	 * @param int    $image_width    New image width.
+	 * @param int    $image_height   New image height.
+	 * @param string $new_image_path Path and image name for save it.
+	 */
+	public function cl_image_resize( $image_path, $image_quality = 70, $image_width, $image_height, $new_image_path ) {
 		$image = wp_get_image_editor( $image_path );
 		if ( ! is_wp_error( $image ) ) {
-			$image->resize( 300, 300, true );
-			$image->save( 'new_image.jpg' );
+			$image->set_quality( $image_quality );
+			$image->resize( $image_width, $image_height, true );
+			$image->save( $new_image_path );
 		}
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -122,6 +121,11 @@ class Cl_Photo_Contest {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-cl-photo-contest-public.php';
 
+		/**
+		 * The class responsible for defining all actions shared by the Dashboard and public-facing sides.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-cl-photo-contest-shared.php';
+
 		$this->loader = new Cl_Photo_Contest_Loader();
 
 	}
@@ -136,11 +140,9 @@ class Cl_Photo_Contest {
 	 * @access   private
 	 */
 	private function set_locale() {
-
 		$plugin_i18n = new Cl_Photo_Contest_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -151,12 +153,13 @@ class Cl_Photo_Contest {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-
 		$plugin_admin = new Cl_Photo_Contest_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		// Administration Menu.
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'set_admin_menu' );
 	}
 
 	/**
@@ -167,12 +170,12 @@ class Cl_Photo_Contest {
 	 * @access   private
 	 */
 	private function define_public_hooks() {
-
 		$plugin_public = new Cl_Photo_Contest_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		$this->loader->add_shortcode( 'sc_cl_photo_contest_form', $plugin_public, 'shortcode_cl_photo_contest_form' );
 	}
 
 	/**
