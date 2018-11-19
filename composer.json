@@ -1,0 +1,20 @@
+{
+    "name": "clongarela/cl-photo-contest",
+    "description": "WordPress plugins for photo contests creation",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": "7",
+        "johnpbloch/wordpress": "^4.9"
+    },
+    "require-dev": {
+        "mouf/nodejs-installer": "^1.0"
+    },
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Carlos Longarela",
+            "email": "carlos@longarela.eu"
+        }
+    ],
+    "minimum-stability": "stable"
+}
