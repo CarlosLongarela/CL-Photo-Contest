@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CL Photo Contest\n"
-"POT-Creation-Date: 2018-11-19 16:58+0100\n"
-"PO-Revision-Date: 2018-11-19 17:00+0100\n"
+"POT-Creation-Date: 2018-11-20 00:26+0100\n"
+"PO-Revision-Date: 2018-11-20 00:28+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carlos Longarela carlos@longarela.eu\n"
 "Language: es_ES\n"
@@ -21,7 +21,31 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: includes/class-cl-photo-contest-shared.php:68
+#: admin/class-cl-photo-contest-admin.php:106
+msgid "Admin Photo Contest"
+msgstr "Administración concurso fotográfico"
+
+#: admin/class-cl-photo-contest-admin.php:106
+msgid "Photo Contest"
+msgstr "Concurso fotográfico"
+
+#: admin/class-cl-photo-contest-admin.php:107
+msgid "Contest"
+msgstr "Concurso"
+
+#: admin/class-cl-photo-contest-admin.php:107
+msgid "Contest creation"
+msgstr "Creación de concurso"
+
+#: admin/class-cl-photo-contest-admin.php:108
+msgid "Photos"
+msgstr "Fotos"
+
+#: admin/class-cl-photo-contest-admin.php:108
+msgid "Photos admin"
+msgstr "Administrador de fotos"
+
+#: includes/class-cl-photo-contest-shared.php:69
 msgid ""
 "The file system API could not be initialized, you do not have sufficient "
 "permissions"
@@ -29,9 +53,66 @@ msgstr ""
 "No se ha podido inicializar el API del sistema de archivos, no tienes "
 "permisos suficientes"
 
-#: includes/class-cl-photo-contest-shared.php:74
+#: includes/class-cl-photo-contest-shared.php:75
 msgid "Unable to access the file system"
 msgstr "No se ha podido acceder al sistema de archivos"
+
+#: public/class-cl-photo-contest-public.php:122
+msgid "There is no photo contest with that Id"
+msgstr "No hay concurso de fotos con ese ID"
+
+#: public/class-cl-photo-contest-public.php:128
+msgid "The contest start date has not yet arrived"
+msgstr "La fecha de inicio del concurso aún no ha llegado"
+
+#: public/class-cl-photo-contest-public.php:130
+msgid "The contest has finished"
+msgstr "El concurso ha terminado"
+
+#: public/class-cl-photo-contest-public.php:150
+#: public/class-cl-photo-contest-public.php:186
+msgid "You must provide a contest Id"
+msgstr "Debes proporcionar un ID de concurso"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:18
+msgid "Your name"
+msgstr "Tu nombre"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:19
+msgid "Enter your name"
+msgstr "Escribe tu nombre"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:23
+msgid "Your e-mail"
+msgstr "Tu correo electrónico"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:24
+msgid "Enter your e-mail"
+msgstr "Escribe tu correo electrónico"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:28
+msgid "Photo title"
+msgstr "Título de la foto"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:29
+msgid "Enter a photo title"
+msgstr "Escribe un título para la fotografía"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:33
+msgid "Comments"
+msgstr "Comentarios"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:34
+msgid "Your comments about the photo"
+msgstr "Tus comentarios sobre la foto"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:38
+msgid "Select your photo to upload"
+msgstr "Selecciona tu foto para subir"
+
+#: public/partials/cl-photo-contest-public-photo-page.php:43
+msgid "Submit photo and data"
+msgstr "Enviar foto y datos"
 
 #. Plugin Name of the plugin/theme
 msgid "CL Photo Contest"

@@ -103,7 +103,7 @@ class Cl_Photo_Contest_Admin {
 		$sub_menu_slug_1 = $this->plugin_name . '/admin/cl-photo-contest-menu-paginas.php';
 		$sub_menu_slug_2 = $this->plugin_name . '/admin/cl-photo-contest-menu-stats-paginas.php';
 
-		add_menu_page( __( 'Adminin Photo Contest', 'cl-photo-contest' ), __( 'Photo Contest', 'cl-photo-contest' ), 'edit_pages', $menu_slug, '', 'dashicons-performance', '26.1' );
+		add_menu_page( __( 'Admin Photo Contest', 'cl-photo-contest' ), __( 'Photo Contest', 'cl-photo-contest' ), 'edit_pages', $menu_slug, '', 'dashicons-performance', '26.1' );
 		add_submenu_page( $menu_slug, __( 'Contest', 'cl-photo-contest' ), __( 'Contest creation', 'cl-photo-contest' ), 'manage_options', $sub_menu_slug_1 );
 		add_submenu_page( $menu_slug, __( 'Photos', 'cl-photo-contest' ), __( 'Photos admin', 'cl-photo-contest' ), 'manage_options', $sub_menu_slug_2 );
 	}
