@@ -1,181 +1,408 @@
 <?php
 /**
+ * The public & admin-facing shared functionality of the plugin.
  *
- * Archivo paginador.class.php
- * Codificacion UTF-8
- * Identacion de tabulador (4 espacios)
- * Sin acentos
+ * @author            Carlos Longarela <carlos@longarela.eu>
+ * @link              https://tabernawp.com/
+ * @since      1.0.0
  *
- * @author Carlos Longarela
+ * @package    Cl_Photo_Contest
+ * @subpackage Cl_Photo_Contest/includes
+ */
+
+/**
+ * Pager class.
+ *
+ * @since      1.0.0
+ * @package    Cl_Photo_Contest
+ * @subpackage Cl_Photo_Contest/includes
+ * @author     Carlos Longarela <carlos@longarela.eu>
+ *
  * @version 0.1 Feb 2005
  * @version 1.2 Feb 2009
  * @version 1.3 Feb 2013
  * @version 1.4 Ago 2013
  * @version 1.5 Mar 2017
  * @version 2.0 Nov 2018
- *
  */
-
 class Cl_Photo_Contest_Pager {
-//*************************************************************
-//********************** VARIABLES ****************************
-//*************************************************************
-	private $n_registros   = 0; // Número de registros totales.
-	private $n_mostrar     = 10; // Número de registros a mostrar en cada pagina.
-	private $items_por_pag = 10; // Número de items de paginas mostrados en cada visualizacion.
-	private $num_pags      = 0; // Número de paginas que hay con los registros actuales, calculado en el constructor.
-	private $pag_actual    = 1; // Número de pagina en la que estamos.
-	private $ruta_base     = ''; // Ruta base de la pagina.
 
-	// Cadenas de Texto para la navegación.
-	private $primera   = '|&lt;';
-	private $anterior  = '&nbsp;&laquo;';
-	private $siguiente = '&raquo;&nbsp;';
-	private $ultima    = '&gt;|';
-	private $mas_links = '...';
-	private $ini_links = '...';
-
-	private $slug_pags = '?id_pag=';
-
-	public $class_desactivado = 'desactivado';
-	public $enl_pags          = 'enl_pags';
-	public $pag_act           = 'pag_act';
-
-//*******************************************************************
-//****************************  PUBLICOS ****************************
-//*******************************************************************
 	/**
-	 * Constructor de la clase paginador
+	 * Total number of registers.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    int   $n_total_registers Total number of registers.
 	 */
-	public function __construct( $ruta_base, $n_registros, $n_mostrar = 10, $items_por_pag = 10 ) {
-		//parent::__construct();
+	private $n_total_registers = 0;
 
-		$this->n_registros   = $n_registros;
-		$this->n_mostrar     = $n_mostrar;
-		$this->items_por_pag = $items_por_pag;
-		$this->ruta_base     = $ruta_base;
+	/**
+	 * Number of link pages to show.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    int   $n_links_show Number of link pages to show.
+	 */
+	private $n_links_show = 10;
 
-		$this->num_pags = ceil( $this->n_registros / $n_mostrar);
+	/**
+	 * Number of item to show per page.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    int   $n_items_per_page Number of item to show per page.
+	 */
+	private $n_items_per_page = 30;
 
-		//if (strstr($this->archivo,'?')) $this->arg_ini='&amp;';
+	/**
+	 * Number of pages with the actual number of registers, calculated in constructor.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    int   $n_pages Number of pages with the actual number of registers.
+	 */
+	private $n_pages_total = 0;
 
-		if ( ! empty( $_GET['id_pag'] ) ) {
-			$this->pag_actual = $_GET['id_pag'];
+	/**
+	 * Our actual page number.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    int   $current_page actual page number..
+	 */
+	private $current_page = 1;
+
+	/**
+	 * Photo Contest url.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $base_contest_url Photo Contest url.
+	 */
+	private $base_contest_url = '';
+
+	/**
+	 * Text to show in link for first page.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $txt_first Text to show in link for first page.
+	 */
+	private $txt_first = '|&lt;';
+
+	/**
+	 * Text to show in link for previous page.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $txt_previous Text to show in link for previous page.
+	 */
+	private $txt_previous = '&nbsp;&laquo;';
+
+	/**
+	 * Text to show in link for next page.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $txt_next Text to show in link for next page.
+	 */
+	private $txt_next = '&raquo;&nbsp;';
+
+	/**
+	 * Text to show in link for last page.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $txt_last Text to show in link for last page.
+	 */
+	private $txt_last = '&gt;|';
+
+	/**
+	 * Text to show in link for more page links.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $txt_more_links Text to show in link for more page links.
+	 */
+	private $txt_more_links = '...';
+
+	/**
+	 * Text to show in link for less page links.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $txt_less_links Text to show in link for less page links.
+	 */
+	private $txt_less_links = '...';
+
+	/**
+	 * String with param used for page.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $param_page String with param used for page.
+	 */
+	private $param_page = 'id_page';
+
+	/**
+	 * CSS class for disabled link.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $class_disabled CSS class for disabled link.
+	 */
+	public $class_disabled = 'cl-photo-contest-link-disabled';
+
+	/**
+	 * CSS class for page link.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $class_link_page CSS class for page link.
+	 */
+	public $class_link_page = 'cl-photo-contest-link';
+
+	/**
+	 * CSS class for current page link.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string   $class_link_current CSS class for current page link.
+	 */
+	public $class_link_current = 'cl-photo-contest-link-current';
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since   1.0.0
+	 * @param string $base_contest_url   Contest photo base url.
+	 * @param int    $n_total_registers  Total number of registers.
+	 * @param int    $n_links_show       Number of link pages to show.
+	 * @param int    $n_items_per_page   Number of item to show per page.
+	 */
+	public function __construct( $base_contest_url, $n_total_registers, $n_links_show = 10, $n_items_per_page = 30 ) {
+		$this->n_total_registers = $n_total_registers;
+		$this->n_links_show      = $n_links_show;
+		$this->n_items_per_page  = $n_items_per_page;
+		$this->base_contest_url  = $base_contest_url;
+
+		$this->n_pages_total = ceil( $this->n_total_registers / $n_links_show );
+
+		if ( ! empty( get_query_var( $this->param_page ) ) ) {
+			$this->current_page = (int) get_query_var( $this->param_page );
 		}
 	}
 
-	public function set_slug_pags( $slug ) {
-		$this->slug_pags = $slug;
+	/**
+	 * Set private var $txt_first to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $txt Text for private var.
+	 */
+	public function set_txt_first( $txt ) {
+		$this->txt_first = esc_attr( $txt );
 	}
 
-	//---------------------------------------
-	// Fija la pagina actual a la indicada
-	//---------------------------------------
-	public function set_pag_actual( $pag ) {
-		$this->pag_actual = $pag;
+	/**
+	 * Set private var $txt_previous to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $txt Text for private var.
+	 */
+	public function set_txt_previous( $txt ) {
+		$this->txt_previous = esc_attr( $txt );
 	}
 
- 	//----------------------------------------------------------
-	// Muestra Enlace a la Primera Pagina y a la Pagina Anterior
-	//----------------------------------------------------------
-	public function previous() {
+	/**
+	 * Set private var $txt_next to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $txt Text for private var.
+	 */
+	public function set_txt_next( $txt ) {
+		$this->txt_next = esc_attr( $txt );
+	}
+
+	/**
+	 * Set private var $txt_last to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $txt Text for private var.
+	 */
+	public function set_txt_last( $txt ) {
+		$this->txt_last = esc_attr( $txt );
+	}
+
+	/**
+	 * Set private var $txt_more_links to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $txt Text for private var.
+	 */
+	public function set_txt_more_links( $txt ) {
+		$this->txt_more_links = esc_attr( $txt );
+	}
+
+	/**
+	 * Set private var $txt_less_links to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $txt Text for private var.
+	 */
+	public function set_txt_less_links( $txt ) {
+		$this->txt_less_links = esc_attr( $txt );
+	}
+
+	/**
+	 * Set private var $class_disabled to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $class Text for private var.
+	 */
+	public function set_class_disabled( $class ) {
+		$this->class_disabled = esc_attr( $class );
+	}
+
+	/**
+	 * Set private var $class_link_page to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $class Text for private var.
+	 */
+	public function set_class_link_page( $class ) {
+		$this->class_link_page = esc_attr( $class );
+	}
+
+	/**
+	 * Set private var $class_link_current to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $class Text for private var.
+	 */
+	public function set_class_link_current( $class ) {
+		$this->class_link_current = esc_attr( $class );
+	}
+
+	/**
+	 * Set private var $param_page to its val.
+	 *
+	 * @since   1.0.0
+	 * @param string $param Text for private var.
+	 */
+	public function set_param_page( $param ) {
+		$this->param_page = esc_attr( $param );
+	}
+
+	/**
+	 * Set current page number.
+	 *
+	 * @since   1.0.0
+	 * @param int $page_number Page number to set.
+	 */
+	private function set_current_page( $page_number ) {
+		$this->current_page = $page_number;
+	}
+
+	/**
+	 * Show links to first page and previous page.
+	 */
+	private function show_previous() {
 		$html = '';
 
-		if ( 1 === $this->pag_actual ) {
-			$html . = '<span class="' . $this->class_desactivado . '">' . $this->primera . $this->anterior . '</span>';
+		if ( 1 === $this->current_page ) {
+			$html .= '<span class="' . $this->class_disabled . '">' . $this->txt_first . $this->txt_previous . '</span>';
 		} else {
-			$html .= '<a href="' . $this->ruta_base . '" class="' . $this->enl_pags . '">' . $this->primera . '</a>';
-			if ( 1 === ( $this->pag_actual - 1) ) { // Si es la primera pagina.
-				$html .= '<a href="' . $this->ruta_base . '" class="' . $this->enl_pags . '">' . $this->anterior . '</a>';
+			$html .= '<a href="' . $this->base_contest_url . '" class="' . $this->class_link_page . '">' . $this->txt_first . '</a>';
+			if ( 1 === ( $this->current_page - 1 ) ) { // If current page is first page.
+				$html .= '<a href="' . $this->base_contest_url . '" class="' . $this->class_link_page . '">' . $this->txt_previous . '</a>';
 			} else {
-				$html .= '<a href="' . $this->ruta_base . $this->slug_pags . ( $this->pag_actual - 1 ) . '" class="' . $this->enl_pags . '">' . $this->anterior . '</a>';
+				$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . ( $this->current_page - 1 ) . '" class="' . $this->class_link_page . '">' . $this->txt_previous . '</a>';
 			}
 		}
 
 		return $html;
 	}
 
-	//----------------------------------------------------------
-	// Muestra Enlace a la ultima Pagina y a la Pagina Siguiente
-	//----------------------------------------------------------
-	public function next()	{
+	/**
+	 * Show links to last page and next page.
+	 */
+	private function show_next() {
 		$html = '';
-		if ( $this->pag_actual === $this->num_pags ) {
-			$html .='<span class="' . $this->class_desactivado.'">' . $this->siguiente . $this->ultima . '</span>';
+		if ( $this->current_page === $this->n_pages_total ) {
+			$html .= '<span class="' . $this->class_disabled . '">' . $this->txt_next . $this->txt_last . '</span>';
 		} else {
-			$html .= '<a href="' . $this->ruta_base . $this->slug_pags . ( $this->pag_actual + 1 ) . '" class="' . $this->enl_pags . '">' . $this->siguiente . '</a>';
-			$html .= '<a href="' . $this->ruta_base . $this->slug_pags . $this->num_pags . '" class="' . $this->enl_pags . '">' . $this->ultima . '</a>';
+			$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . ( $this->current_page + 1 ) . '" class="' . $this->class_link_page . '">' . $this->txt_next . '</a>';
+			$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . $this->n_pages_total . '" class="' . $this->class_link_page . '">' . $this->txt_last . '</a>';
 		}
 
 		return $html;
 	}
 
-	//---------------------------------------------------------
-	// Muestra Enlaces a cada una de las paginas de navegacion
-	//---------------------------------------------------------
-	public function crea_barra_pags() {
-		$num_pags      = $this->num_pags;
-		$items_por_pag = $this->items_por_pag;
-		$inicio        = 1;
-		$html          = '';
+	/**
+	 * Show links for each navigation pages.
+	 */
+	public function show_nav_bar_pages() {
+		$n_pages_total    = $this->n_pages_total;
+		$n_items_per_page = $this->n_items_per_page;
+		$init             = 1;
+		$html             = '';
 
-		for ( $i = 1; $i <= $num_pags; $i += $items_por_pag ) {
-			if ( $this->pag_actual >= $i ) {
-				$inicio = $i;
+		for ( $i = 1; $i <= $n_pages_total; $i += $n_items_per_page ) {
+			if ( $this->current_page >= $i ) {
+				$init = $i;
 			}
 		}
 
-		$fin = $inicio + $items_por_pag - 1;
+		$end = $init + $n_items_per_page - 1;
 
-		if ( $fin > $num_pags ) {
-			$fin = $num_pags;
+		if ( $end > $n_pages_total ) {
+			$end = $n_pages_total;
 		}
 
-		if ( $inicio > 1 ) {
-			$pos = $inicio - 1;
-			$html .= '<a href="' . $this->ruta_base . $this->slug_pags . $pos . '" class="' . $this->enl_pags . '">' . $this->ini_links . '</a>';
+		if ( $init > 1 ) {
+			$pos   = $init - 1;
+			$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . $pos . '" class="' . $this->class_link_page . '">' . $this->txt_less_links . '</a>';
 		}
 
-		for ( $i = $inicio; $i <= $fin; $i++ ) {
-			if ( $this->pag_actual === $i || ( 0 === $this->pag_actual && 1 === $i ) ) {
-				$html .= '<span class="' . $this->pag_act . '">' . $i . '</span>';
+		for ( $i = $init; $i <= $end; $i++ ) {
+			if ( $this->current_page === $i || ( 0 === $this->current_page && 1 === $i ) ) {
+				$html .= '<span class="' . $this->class_link_current . '">' . $i . '</span>';
 			} else {
-				if ( $i == 1 ) {
-					$html .= '<a href="' . $this->ruta_base . '" class="' . $this->enl_pags . '">' . $i . '</a>';
+				if ( 1 === $i ) {
+					$html .= '<a href="' . $this->base_contest_url . '" class="' . $this->class_link_page . '">' . $i . '</a>';
 				} else {
-					$html .= '<a href="' . $this->ruta_base . $this->slug_pags . $i . '" class="' . $this->enl_pags . '">' . $i . '</a>';
+					$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . $i . '" class="' . $this->class_link_page . '">' . $i . '</a>';
 				}
 			}
 		}
 
-		if ( $fin < $num_pags ) {
-			$html .= '<a href="' . $this->ruta_base . $this->slug_pags . $i . '" class="' . $this->enl_pags . '">' . $this->mas_links . '</a>';
+		if ( $end < $n_pages_total ) {
+			$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . $i . '" class="' . $this->class_link_page . '">' . $this->txt_more_links . '</a>';
 		}
 
 		return $html;
 	}
 
-	//---------------------------------------
-	// Muestra el numero de pagina actual y
-	// el numero de paginas totales
-	//---------------------------------------
-	public function muestra_num_pag() {
-		$html = 'P&aacute;gina&nbsp;' . $this->pag_actual . '&nbsp;de&nbsp;' . $this->num_pags;
+	/**
+	 * Show current page number and total pages number.
+	 */
+	public function show_actual_page_count() {
+		$html = 'P&aacute;gina&nbsp;' . $this->current_page . '&nbsp;de&nbsp;' . $this->n_pages_total; // TODO: i18n string.
 		return $html;
 	}
 
-	//----------------------------------------------------------
-	// Muestra la barra de Navegacion con las opciones de ir:
-	// al primer registro, al anetrior
-	// navegar por las paginas,
-	// ir al siguiente e ir al ultimo
-	//----------------------------------------------------------
-	public function barra_naveg() {
+	/**
+	 * Show nav bar with options:
+	 * - first page and previous page,
+	 * - navigate by page numbers,
+	 * - next and last page.
+	 */
+	public function show_nav_bar() {
 		$html = '';
 
-		$html .= $this->atras();
-		$html .= $this->crea_barra_pags();
-		$html .= $this->adelante();
+		$html .= $this->show_previous();
+		$html .= $this->show_nav_bar_pages();
+		$html .= $this->show_next();
 
 		return $html;
 	}
