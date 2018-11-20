@@ -52,27 +52,26 @@ function cl_photo_contest_fs() {
 		// Include Freemius SDK.
 		require_once plugin_dir_path( __FILE__ ) . 'freemius/start.php';
 
-        $cl_photo_contest_fs = fs_dynamic_init( array(
-            'id'                  => '2865',
-            'slug'                => 'cl-photo-contest',
-            'type'                => 'plugin',
-            'public_key'          => 'pk_27c3ae44a0e5a3728f1d9a3554c55',
-            'is_premium'          => true,
-            // If your plugin is a serviceware, set this option to false.
-            'has_premium_version' => true,
-            'has_addons'          => false,
-            'has_paid_plans'      => true,
-            'trial'               => array(
-                'days'               => 14,
-                'is_require_payment' => false,
-            ),
-            'menu'                => array(
-                'slug'           => 'cl-photo-contest',
-            ),
-            // Set the SDK to work in a sandbox mode (for development & testing).
-            // IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
-            'secret_key'          => 'sk_}@<*zz5R)QQ[wPyCxB8sZj%oe)Lm(',
-        ) );
+		$cl_photo_contest_fs = fs_dynamic_init( array(
+			'id'                  => '2865',
+			'slug'                => 'cl-photo-contest',
+			'type'                => 'plugin',
+			'public_key'          => 'pk_27c3ae44a0e5a3728f1d9a3554c55',
+			'is_premium'          => true,
+			'has_premium_version' => true,
+			'has_addons'          => false,
+			'has_paid_plans'      => true,
+			'trial'               => array(
+				'days'               => 14,
+				'is_require_payment' => false,
+			),
+			'menu'                => array(
+				'slug' => 'cl-photo-contest',
+			),
+			// Set the SDK to work in a sandbox mode (for development & testing).
+			// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
+			'secret_key'          => 'sk_}@<*zz5R)QQ[wPyCxB8sZj%oe)Lm(',
+		) );
 	}
 
 	return $cl_photo_contest_fs;
