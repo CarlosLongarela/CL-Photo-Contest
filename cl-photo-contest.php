@@ -43,6 +43,39 @@ $cl_photo_contest_upload_dir = wp_upload_dir();
 define( 'CL_PHOTO_CONTEST_UPLOAD_PATH', $cl_photo_contest_upload_dir['basedir'] . '/cl-photo-contest/' ); // Photo files path.
 
 /**
+ * Create a helper function for easy Freemius SDK access.
+ */
+function cl_photo_contest_fs() {
+	global $cl_photo_contest_fs;
+
+	if ( ! isset( $cl_photo_contest_fs ) ) {
+		// Include Freemius SDK.
+		require_once plugin_dir_path( __FILE__ ) . 'freemius/start.php';
+
+		$cl_photo_contest_fs = fs_dynamic_init( array(
+			'id'             => '2865',
+			'slug'           => 'cl-photo-contest',
+			'type'           => 'plugin',
+			'public_key'     => 'pk_27c3ae44a0e5a3728f1d9a3554c55',
+			'is_premium'     => false,
+			'has_addons'     => false,
+			'has_paid_plans' => false,
+			'menu'           => array(
+				'slug' => 'cl-photo-contest',
+			),
+		) );
+	}
+
+	return $cl_photo_contest_fs;
+}
+
+// Init Freemius.
+cl_photo_contest_fs();
+
+// Signal that SDK was initiated.
+do_action( 'cl_photo_contest_fs_loaded' );
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-cl-photo-contest-activator.php
  */
