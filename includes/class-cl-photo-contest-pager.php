@@ -12,10 +12,11 @@
  * @version 1.3 Feb 2013
  * @version 1.4 Ago 2013
  * @version 1.5 Mar 2017
+ * @version 2.0 Nov 2018
  *
  */
 
-class Pager {
+class Cl_Photo_Contest_Pager {
 //*************************************************************
 //********************** VARIABLES ****************************
 //*************************************************************
@@ -61,102 +62,98 @@ class Pager {
 		if ( ! empty( $_GET['id_pag'] ) ) {
 			$this->pag_actual = $_GET['id_pag'];
 		}
-	} // Fin del constructor.
+	}
 
-	public function __destruct() {
-		parent::__destruct();
-	}//fin destructor
-
-	public function set_slug_pags($slug) {
+	public function set_slug_pags( $slug ) {
 		$this->slug_pags = $slug;
-	}//fin set_slug_pags
+	}
 
 	//---------------------------------------
 	// Fija la pagina actual a la indicada
 	//---------------------------------------
-	public function set_pag_actual($pag) {
+	public function set_pag_actual( $pag ) {
 		$this->pag_actual = $pag;
-	}//fin set_pag_actual
+	}
 
  	//----------------------------------------------------------
 	// Muestra Enlace a la Primera Pagina y a la Pagina Anterior
 	//----------------------------------------------------------
-	public function atras() {
-		$html='';
-		if ($this->pag_actual==1) {
-			$html.='<span class="'.$this->class_desactivado.'">'.$this->primera.$this->anterior.'</span>';
-		}else{
-			$html.='<a href="'.$this->ruta_base.'" class="'.$this->enl_pags.'">'.$this->primera.'</a>';
-			if (($this->pag_actual - 1)==1){//Si es la primera pagina
-				$html.='<a href="'.$this->ruta_base.'" class="'.$this->enl_pags.'">'.$this->anterior.'</a>';
-			}else{
-				$html.='<a href="'.$this->ruta_base.$this->slug_pags.($this->pag_actual-1).'" class="'.$this->enl_pags.'">'.$this->anterior.'</a>';
-			}//if
-		}//if
+	public function previous() {
+		$html = '';
+
+		if ( 1 === $this->pag_actual ) {
+			$html . = '<span class="' . $this->class_desactivado . '">' . $this->primera . $this->anterior . '</span>';
+		} else {
+			$html .= '<a href="' . $this->ruta_base . '" class="' . $this->enl_pags . '">' . $this->primera . '</a>';
+			if ( 1 === ( $this->pag_actual - 1) ) { // Si es la primera pagina.
+				$html .= '<a href="' . $this->ruta_base . '" class="' . $this->enl_pags . '">' . $this->anterior . '</a>';
+			} else {
+				$html .= '<a href="' . $this->ruta_base . $this->slug_pags . ( $this->pag_actual - 1 ) . '" class="' . $this->enl_pags . '">' . $this->anterior . '</a>';
+			}
+		}
 
 		return $html;
-	}//fin atras
+	}
 
 	//----------------------------------------------------------
 	// Muestra Enlace a la ultima Pagina y a la Pagina Siguiente
 	//----------------------------------------------------------
-	public function adelante()	{
-		$html='';
-		if ($this->pag_actual==$this->num_pags) {
-			$html.='<span class="'.$this->class_desactivado.'">'.$this->siguiente.$this->ultima.'</span>';
-		}else{
-			$html.='<a href="'.$this->ruta_base.$this->slug_pags.($this->pag_actual + 1).'" class="'.$this->enl_pags.'">'.$this->siguiente.'</a>';
-			$html.='<a href="'.$this->ruta_base.$this->slug_pags.$this->num_pags.'" class="'.$this->enl_pags.'">'.$this->ultima.'</a>';
-		}//if
+	public function next()	{
+		$html = '';
+		if ( $this->pag_actual === $this->num_pags ) {
+			$html .='<span class="' . $this->class_desactivado.'">' . $this->siguiente . $this->ultima . '</span>';
+		} else {
+			$html .= '<a href="' . $this->ruta_base . $this->slug_pags . ( $this->pag_actual + 1 ) . '" class="' . $this->enl_pags . '">' . $this->siguiente . '</a>';
+			$html .= '<a href="' . $this->ruta_base . $this->slug_pags . $this->num_pags . '" class="' . $this->enl_pags . '">' . $this->ultima . '</a>';
+		}
 
 		return $html;
-	}//fin adelante
+	}
 
 	//---------------------------------------------------------
 	// Muestra Enlaces a cada una de las paginas de navegacion
 	//---------------------------------------------------------
 	public function crea_barra_pags() {
-		$num_pags		= $this->num_pags;
-		$items_por_pag	= $this->items_por_pag;
-		$inicio			= 1;
-		$html			= '';
+		$num_pags      = $this->num_pags;
+		$items_por_pag = $this->items_por_pag;
+		$inicio        = 1;
+		$html          = '';
 
 		for ( $i = 1; $i <= $num_pags; $i += $items_por_pag ) {
 			if ( $this->pag_actual >= $i ) {
 				$inicio = $i;
 			}
-		}//for
+		}
 
 		$fin = $inicio + $items_por_pag - 1;
 
 		if ( $fin > $num_pags ) {
 			$fin = $num_pags;
-		}//if
-
+		}
 
 		if ( $inicio > 1 ) {
 			$pos = $inicio - 1;
 			$html .= '<a href="' . $this->ruta_base . $this->slug_pags . $pos . '" class="' . $this->enl_pags . '">' . $this->ini_links . '</a>';
-		}//if
+		}
 
 		for ( $i = $inicio; $i <= $fin; $i++ ) {
-			if ( $this->pag_actual == $i || ( $this->pag_actual == 0 && $i == 1 ) ) {
+			if ( $this->pag_actual === $i || ( 0 === $this->pag_actual && 1 === $i ) ) {
 				$html .= '<span class="' . $this->pag_act . '">' . $i . '</span>';
 			} else {
 				if ( $i == 1 ) {
 					$html .= '<a href="' . $this->ruta_base . '" class="' . $this->enl_pags . '">' . $i . '</a>';
 				} else {
 					$html .= '<a href="' . $this->ruta_base . $this->slug_pags . $i . '" class="' . $this->enl_pags . '">' . $i . '</a>';
-				}//if
-			}//if
-		}//for
+				}
+			}
+		}
 
 		if ( $fin < $num_pags ) {
 			$html .= '<a href="' . $this->ruta_base . $this->slug_pags . $i . '" class="' . $this->enl_pags . '">' . $this->mas_links . '</a>';
-		}//if
+		}
 
 		return $html;
-	}//fin crea_barra_pags
+	}
 
 	//---------------------------------------
 	// Muestra el numero de pagina actual y
@@ -165,7 +162,7 @@ class Pager {
 	public function muestra_num_pag() {
 		$html = 'P&aacute;gina&nbsp;' . $this->pag_actual . '&nbsp;de&nbsp;' . $this->num_pags;
 		return $html;
-	}//fin muestra_num_pag
+	}
 
 	//----------------------------------------------------------
 	// Muestra la barra de Navegacion con las opciones de ir:
@@ -181,6 +178,6 @@ class Pager {
 		$html .= $this->adelante();
 
 		return $html;
-	}//fin barra_naveg
+	}
 
 }
