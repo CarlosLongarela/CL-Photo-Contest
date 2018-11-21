@@ -135,4 +135,88 @@ class Cl_Photo_Contest_Shared {
 			$image->save( $new_image_path );
 		}
 	}
+
+	/**
+	 * Total photos validated submited to contest with that Id.
+	 *
+	 * @param int $id_contest  Id contest to obtain total photos number.
+	 */
+	public function get_total_num_photos( $id_contest ) {
+		global $wpdb;
+
+		$n_photos = 0;
+		$n_photos = $wpdb->get_var( $wpdb->prepare(
+			"SELECT COUNT(id) FROM {$wpdb->prefix}cl_photo_contests_photos WHERE id_contest = %d AND photo_validated = 1",
+			$id_contest
+		) );
+
+		return $n_photos;
+	}
+
+	/**
+	 * Retrieve photos data for this page.
+	 *
+	 * @param int    $id_contest    Id contest to obtain photos data.
+	 * @param int    $page_num      Number of page to show.
+	 * @param int    $n_photos_show Number of photos to show in actual page.
+	 * @param string $order      Databse order for results.
+	 */
+	public function get_contest_photos_data( $id_contest, $page_num, $n_photos_show, $order = 'DESC' ) {
+		$id_contest    = absint( $id_contest );
+		$page_num      = absint( $page_num );
+		$n_photos_show = absint( $n_photos_show );
+		$order         = esc_attr( $order );
+
+		if ( 1 === $page_num ) { // First page.
+			$res = $wpdb->get_results( $wpdb->prepare(
+				"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
+				FROM {$wpdb->prefix}cl_photo_contests_photos
+				WHERE id_contest = %d AND photo_validated = 1
+				ORDER BY id %s
+				LIMIT %d",
+				$id_contest,
+				$order,
+				$n_photos_show
+			) );
+		} else { // Second and consecutive pages.
+			$offset = absint( ( $page_num * $n_photos_show ) - 1 );
+			// Obtain Id with The Seek Method https://www.eversql.com/faster-pagination-in-mysql-why-order-by-with-limit-and-offset-is-slow/ !
+			$id_from = $wpdb->get_var( $wpdb->prepare(
+				"SELECT id FROM {$wpdb->prefix}cl_photo_contests_photos
+				WHERE id_contest = %d AND photo_validated = 1
+				ORDER BY id %s
+				LIMIT 1 OFFSET %d",
+				$id_contest,
+				$order,
+				$offset
+			) );
+
+			if ( 'ASC' === $order ) {
+				$res = $wpdb->get_results( $wpdb->prepare(
+					"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
+					FROM {$wpdb->prefix}cl_photo_contests_photos
+					WHERE id > %d AND id_contest = %d AND photo_validated = 1
+					ORDER BY id ASC
+					LIMIT %d",
+					$id_from,
+					$id_contest,
+					$n_photos_show
+				) );
+			} else {
+				$res = $wpdb->get_results( $wpdb->prepare(
+					"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
+					FROM {$wpdb->prefix}cl_photo_contests_photos
+					WHERE id < %d AND id_contest = %d AND photo_validated = 1
+					ORDER BY id DESC
+					LIMIT %d",
+					$id_from,
+					$id_contest,
+					$n_photos_show
+				) );
+			}
+		}
+
+		return $res;
+	}
+
 }

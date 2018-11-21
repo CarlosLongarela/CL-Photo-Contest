@@ -55,14 +55,14 @@ class Cl_Photo_Contest_Activator {
 
 		$sql[] = 'CREATE TABLE ' . $table_name_2 . " (
 		id mediumint(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+		id_contest mediumint(9) UNSIGNED NOT NULL DEFAULT '0',
 		author_name varchar(255) NULL DEFAULT NULL,
 		author_mail varchar(255) NULL DEFAULT NULL,
 		photo_title varchar(255) NULL DEFAULT NULL,
 		photo_size_bytes mediumint(9) UNSIGNED NULL DEFAULT NULL,
 		photo_comment text NULL,
 		upload_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
-		id_contest mediumint(9) UNSIGNED NULL DEFAULT NULL,
-		photo_validated tinyint(1) UNSIGNED NULL DEFAULT '0',
+		photo_validated tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
 		PRIMARY KEY  (id)
 		) " . $charset_collate . ';';
 
