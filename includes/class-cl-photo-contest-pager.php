@@ -177,20 +177,26 @@ class Cl_Photo_Contest_Pager {
 	 * @since   1.0.0
 	 * @param string $base_contest_url   Contest photo base url.
 	 * @param int    $n_total_registers  Total number of registers.
-	 * @param int    $n_links_show       Number of link pages to show.
 	 * @param int    $n_items_per_page   Number of item to show per page.
 	 */
-	public function __construct( $base_contest_url, $n_total_registers, $n_links_show = 10, $n_items_per_page = 30 ) {
+	public function __construct( $base_contest_url, $n_total_registers, $n_items_per_page = 30 ) {
 		$this->n_total_registers = $n_total_registers;
-		$this->n_links_show      = $n_links_show;
 		$this->n_items_per_page  = $n_items_per_page;
 		$this->base_contest_url  = $base_contest_url;
 
-		$this->n_pages_total = ceil( $this->n_total_registers / $n_links_show );
+		$this->n_pages_total = ceil( $this->n_total_registers / $n_items_per_page );
 
-		if ( ! empty( get_query_var( $this->param_page ) ) ) {
-			$this->current_page = (int) get_query_var( $this->param_page );
-		}
+		$this->current_page = (int) get_query_var( $this->param_page, 1 );
+	}
+
+	/**
+	 * Set private var $n_links_show to its val.
+	 *
+	 * @since   1.0.0
+	 * @param int $n_links Number of links to show in navigation bar.
+	 */
+	public function set_n_links_show( $n_links ) {
+		$this->n_links_show = absint( $n_links );
 	}
 
 	/**
@@ -312,11 +318,11 @@ class Cl_Photo_Contest_Pager {
 		if ( 1 === $this->current_page ) {
 			$html .= '<span class="' . $this->class_disabled . '">' . $this->txt_first . $this->txt_previous . '</span>';
 		} else {
-			$html .= '<a href="' . $this->base_contest_url . '" class="' . $this->class_link_page . '">' . $this->txt_first . '</a>';
+			$html .= '<a href="' . esc_url( $this->base_contest_url ) . '" class="' . $this->class_link_page . '">' . $this->txt_first . '</a>';
 			if ( 1 === ( $this->current_page - 1 ) ) { // If current page is first page.
-				$html .= '<a href="' . $this->base_contest_url . '" class="' . $this->class_link_page . '">' . $this->txt_previous . '</a>';
+				$html .= '<a href="' . esc_url( $this->base_contest_url ) . '" class="' . $this->class_link_page . '">' . $this->txt_previous . '</a>';
 			} else {
-				$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . ( $this->current_page - 1 ) . '" class="' . $this->class_link_page . '">' . $this->txt_previous . '</a>';
+				$html .= '<a href="' . esc_url( add_query_arg( $this->param_page, ( $this->current_page - 1 ), $this->base_contest_url ) ) . '" class="' . $this->class_link_page . '">' . $this->txt_previous . '</a>';
 			}
 		}
 
@@ -331,8 +337,8 @@ class Cl_Photo_Contest_Pager {
 		if ( $this->current_page === $this->n_pages_total ) {
 			$html .= '<span class="' . $this->class_disabled . '">' . $this->txt_next . $this->txt_last . '</span>';
 		} else {
-			$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . ( $this->current_page + 1 ) . '" class="' . $this->class_link_page . '">' . $this->txt_next . '</a>';
-			$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . $this->n_pages_total . '" class="' . $this->class_link_page . '">' . $this->txt_last . '</a>';
+			$html .= '<a href="' . esc_url( add_query_arg( $this->param_page, ( $this->current_page + 1 ), $this->base_contest_url ) ) . '" class="' . $this->class_link_page . '">' . $this->txt_next . '</a>';
+			$html .= '<a href="' . esc_url( add_query_arg( $this->param_page, $this->n_pages_total, $this->base_contest_url ) ) . '" class="' . $this->class_link_page . '">' . $this->txt_last . '</a>';
 		}
 
 		return $html;
@@ -361,7 +367,7 @@ class Cl_Photo_Contest_Pager {
 
 		if ( $init > 1 ) {
 			$pos   = $init - 1;
-			$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . $pos . '" class="' . $this->class_link_page . '">' . $this->txt_less_links . '</a>';
+			$html .= '<a href="' . esc_url( add_query_arg( $this->param_page, $pos, $this->base_contest_url ) ) . '" class="' . $this->class_link_page . '">' . $this->txt_less_links . '</a>';
 		}
 
 		for ( $i = $init; $i <= $end; $i++ ) {
@@ -369,15 +375,15 @@ class Cl_Photo_Contest_Pager {
 				$html .= '<span class="' . $this->class_link_current . '">' . $i . '</span>';
 			} else {
 				if ( 1 === $i ) {
-					$html .= '<a href="' . $this->base_contest_url . '" class="' . $this->class_link_page . '">' . $i . '</a>';
+					$html .= '<a href="' . esc_url( $this->base_contest_url ) . '" class="' . $this->class_link_page . '">' . $i . '</a>';
 				} else {
-					$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . $i . '" class="' . $this->class_link_page . '">' . $i . '</a>';
+					$html .= '<a href="' . esc_url( add_query_arg( $this->param_page, $i, $this->base_contest_url ) ) . '" class="' . $this->class_link_page . '">' . $i . '</a>';
 				}
 			}
 		}
 
 		if ( $end < $n_pages_total ) {
-			$html .= '<a href="' . $this->base_contest_url . '?' . $this->param_page . '=' . $i . '" class="' . $this->class_link_page . '">' . $this->txt_more_links . '</a>';
+			$html .= '<a href="' . esc_url( add_query_arg( $this->param_page, $i, $this->base_contest_url ) ) . '" class="' . $this->class_link_page . '">' . $this->txt_more_links . '</a>';
 		}
 
 		return $html;
@@ -387,7 +393,8 @@ class Cl_Photo_Contest_Pager {
 	 * Show current page number and total pages number.
 	 */
 	public function show_actual_page_count() {
-		$html = 'P&aacute;gina&nbsp;' . $this->current_page . '&nbsp;de&nbsp;' . $this->n_pages_total; // TODO: i18n string.
+		// Translators: Current page and total pages. e.g. Page 1 of 18.
+		$html = sprintf( esc_html__( 'Page %1$d of %2$d', 'cl-photo-contest' ), $this->current_page, $this->n_pages_total );
 		return $html;
 	}
 
