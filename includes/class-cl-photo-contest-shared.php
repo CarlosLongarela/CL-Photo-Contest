@@ -180,7 +180,11 @@ class Cl_Photo_Contest_Shared {
 			) );
 		} else { // Second and consecutive pages.
 			$offset = absint( ( $page_num * $n_photos_show ) - 1 );
-			// Obtain Id with The Seek Method https://www.eversql.com/faster-pagination-in-mysql-why-order-by-with-limit-and-offset-is-slow/ !
+			/**
+			 * Obtain Id with The Seek Method:
+			 * https://www.eversql.com/faster-pagination-in-mysql-why-order-by-with-limit-and-offset-is-slow/
+			 * https://use-the-index-luke.com/es/sql/resultados-parciales/paginar
+			 */
 			$id_from = $wpdb->get_var( $wpdb->prepare(
 				"SELECT id FROM {$wpdb->prefix}cl_photo_contests_photos
 				WHERE id_contest = %d AND photo_validated = 1
