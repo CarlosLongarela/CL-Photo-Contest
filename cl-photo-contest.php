@@ -14,7 +14,7 @@
  * @wordpress-plugin
  * Plugin Name:       CL Photo Contest
  * Plugin URI:        https://tabernawp.com/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       CL Photo Contest is a plugin for create multiple photo contest in your WordPress site and using your server and not external and limited services.
  * Version:           1.0.0
  * Author:            Carlos Longarela
  * Author URI:        https://tabernawp.com/

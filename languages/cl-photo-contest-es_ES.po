@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CL Photo Contest\n"
-"POT-Creation-Date: 2018-11-20 00:26+0100\n"
-"PO-Revision-Date: 2018-11-20 00:28+0100\n"
+"POT-Creation-Date: 2018-11-21 19:08+0100\n"
+"PO-Revision-Date: 2018-11-21 19:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carlos Longarela carlos@longarela.eu\n"
 "Language: es_ES\n"
@@ -44,6 +44,11 @@ msgstr "Fotos"
 #: admin/class-cl-photo-contest-admin.php:108
 msgid "Photos admin"
 msgstr "Administrador de fotos"
+
+#: includes/class-cl-photo-contest-pager.php:397
+#, php-format
+msgid "Page %1$d of %2$d"
+msgstr "Página %1$d de %2$d"
 
 #: includes/class-cl-photo-contest-shared.php:69
 msgid ""
@@ -124,14 +129,21 @@ msgid "https://tabernawp.com/"
 msgstr "https://tabernawp.com/"
 
 #. Description of the plugin/theme
-#, fuzzy
 msgid ""
-"This is a short description of what the plugin does. It's displayed in the "
-"WordPress admin area."
+"CL Photo Contest is a plugin for create multiple photo contest in your "
+"WordPress site and using your server and not external and limited services."
 msgstr ""
-"Esta es una breve descripción de lo que hace el plugin. Se muestra en el "
-"área de administración de WordPress."
+"CL Photo Contest es un plugin para crear múltiples concursos de fotos en tu "
+"sitio de WordPress y usando tu servidor y no servicios externos y limitados."
 
 #. Author of the plugin/theme
 msgid "Carlos Longarela"
 msgstr "Carlos Longarela"
+
+#, fuzzy
+#~ msgid ""
+#~ "This is a short description of what the plugin does. It's displayed in "
+#~ "the WordPress admin area."
+#~ msgstr ""
+#~ "Esta es una breve descripción de lo que hace el plugin. Se muestra en el "
+#~ "área de administración de WordPress."
