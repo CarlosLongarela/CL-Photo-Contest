@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Define the internationalization functionality
  *
@@ -24,7 +23,7 @@
  * @subpackage Cl_Photo_Contest/includes
  * @author     Carlos Longarela <carlos@longarela.eu>
  */
-class Cl_Photo_Contest_i18n {
+class Cl_Photo_Contest_I18n {
 
 
 	/**
