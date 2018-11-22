@@ -2,7 +2,10 @@
 
 ## PHPCS
 for evaluate entire project excecute in project dir:
-`# phpcs --standard=phpcs.ruleset.xml --extensions=php ./`
+
+```bash
+# phpcs --standard=phpcs.ruleset.xml --extensions=php ./
+```
 
 ## Font Icons
 
