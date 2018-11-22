@@ -1,5 +1,9 @@
 # CL Photo Contest
 
+## PHPCS
+for evaluate entire project excecute in project dir:
+`# phpcs --standard=phpcs.ruleset.xml --extensions=php ./`
+
 ## Font Icons
 
 * Font Name: [WordPress Dashicons](https://developer.wordpress.org/resource/dashicons/)
