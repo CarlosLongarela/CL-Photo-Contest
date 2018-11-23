@@ -34,7 +34,9 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'CL_PHOTO_CONTEST_VERSION', '1.0.0' );
+define( 'CL_PHOTO_CONTEST_PLUGIN_VERSION', '1.0.0' );
+
+define( 'CL_PHOTO_CONTEST_PLUGIN_NAME', 'cl-photo-contest' );
 
 define( 'CL_PHOTO_CONTEST_PLUGIN_URL', plugin_dir_url( __FILE__ ) ); // plugin URL.
 define( 'CL_PHOTO_CONTEST_PLUGIN_PATH', plugin_dir_path( __FILE__ ) ); // plugin PATH.

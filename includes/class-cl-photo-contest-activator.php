@@ -29,6 +29,8 @@ class Cl_Photo_Contest_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
+		global $wpdb;
+
 		// If content photos folder doesn't exist, create folder.
 		if ( ! file_exists( CL_PHOTO_CONTEST_UPLOAD_PATH ) ) {
 			wp_mkdir_p( CL_PHOTO_CONTEST_UPLOAD_PATH );
@@ -67,7 +69,10 @@ class Cl_Photo_Contest_Activator {
 		) " . $charset_collate . ';';
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $sql );
+		dbDelta( $sql ); // DEBUG: Problem with 2 tables creation on activation
+
+		//echo $wpdb->last_error;
+		//die();
 	}
 
 }
