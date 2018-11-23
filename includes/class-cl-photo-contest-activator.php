@@ -70,6 +70,8 @@ class Cl_Photo_Contest_Activator {
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );
+
+		update_option( 'cl_photo_contests_db_version', CL_PHOTO_CONTEST_DB_VERSION, false );
 	}
 
 }

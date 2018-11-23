@@ -12,9 +12,6 @@
  * - Repeat with other user roles. Best directly by using the links/query string parameters.
  * - Repeat things for multisite. Once for a single site in the network, once sitewide.
  *
- * This file may be updated more in future version of the Boilerplate; however, this is the
- * general skeleton and outline for how the file should work.
- *
  * For more information, see the following discussion:
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
@@ -27,4 +24,17 @@
 // If uninstall not called from WordPress, then exit.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
+}
+
+// Delete DB version from options table.
+delete_option( 'cl_photo_contests_db_version' );
+
+if ( true === $delete_installed_tables ) { // TODO: Method for user select if tables will be dropped on uninstall.
+	global $wpdb;
+
+	$table_name_1 = $wpdb->prefix . 'cl_photo_contests';
+	$table_name_2 = $wpdb->prefix . 'cl_photo_contests_photos';
+
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}cl_photo_contests" );
+	$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}cl_photo_contests_photos" );
 }

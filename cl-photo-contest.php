@@ -36,6 +36,8 @@ if ( ! defined( 'WPINC' ) ) {
  */
 define( 'CL_PHOTO_CONTEST_PLUGIN_VERSION', '1.0.0' );
 
+define( 'CL_PHOTO_CONTEST_DB_VERSION', '1.0.0' );
+
 define( 'CL_PHOTO_CONTEST_PLUGIN_NAME', 'cl-photo-contest' );
 
 define( 'CL_PHOTO_CONTEST_PLUGIN_URL', plugin_dir_url( __FILE__ ) ); // plugin URL.
