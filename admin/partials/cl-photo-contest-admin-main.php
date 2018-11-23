@@ -14,16 +14,18 @@
 ?>
 
 <div class="wrap">
-	<h2><?php esc_html_e( 'Cl Photo Contest Admin', 'cl-photo-contest' ); ?></h2>
+	<h1><?php esc_html_e( 'CL Photo Contest Admin', 'cl-photo-contest' ); ?></h1>
 
 	<div class="">
-		<button><?php esc_html_e( 'Create new contest', 'cl-photo-contest' ); ?></button>
+		<button calss="button button-primary"><?php esc_html_e( 'Create new contest', 'cl-photo-contest' ); ?></button>
 	</div>
 
 	<div>
 		<h3><?php esc_html_e( 'Contest list', 'cl-photo-contest' ); ?></h3>
 		<ul>
-			<li></li>
+			<li>Primer concurso</li>
+			<li>Segundo concurso</li>
+			<li>Tercer concurso</li>
 		</ul>
 	</div>
 </div>

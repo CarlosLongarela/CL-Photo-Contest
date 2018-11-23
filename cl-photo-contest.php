@@ -122,9 +122,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-cl-photo-contest.php';
  * @since    1.0.0
  */
 function run_cl_photo_contest() {
-
 	$plugin = new Cl_Photo_Contest();
 	$plugin->run();
-
 }
 run_cl_photo_contest();

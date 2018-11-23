@@ -129,8 +129,8 @@ class Cl_Photo_Contest {
 	private function define_admin_hooks() {
 		$plugin_admin = new Cl_Photo_Contest_Admin();
 
-		if ( ! empty( get_query_var( 'page' ) ) ) {
-			$current_page    = get_query_var( 'page' );
+		if ( ! empty( $_GET['page'] ) ) { // WPCS: CSRF ok.
+			$current_page    = $_GET['page']; // WPCS: CSRF ok.
 			$enqueue_scripts = strpos( $current_page, CL_PHOTO_CONTEST_PLUGIN_NAME );
 
 			if ( false !== $enqueue_scripts ) {

@@ -35,21 +35,7 @@ class Cl_Photo_Contest_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Cl_Photo_Contest_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Cl_Photo_Contest_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_style( CL_PHOTO_CONTEST_PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'css/cl-photo-contest-public.css', array(), CL_PHOTO_CONTEST_PLUGIN_VERSION, 'all' );
-
+		wp_enqueue_style( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'public/css/cl-photo-contest-public.min.css', array(), CL_PHOTO_CONTEST_PLUGIN_VERSION, 'all' );
 	}
 
 	/**
@@ -58,20 +44,7 @@ class Cl_Photo_Contest_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Cl_Photo_Contest_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Cl_Photo_Contest_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( CL_PHOTO_CONTEST_PLUGIN_NAME, plugin_dir_url( __FILE__ ) . 'js/cl-photo-contest-public.js', array( 'jquery' ), CL_PHOTO_CONTEST_PLUGIN_VERSION, false );
+		wp_enqueue_script( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'public/js/cl-photo-contest-public.min.js', array( 'jquery' ), CL_PHOTO_CONTEST_PLUGIN_VERSION, false );
 	}
 
 	/**
