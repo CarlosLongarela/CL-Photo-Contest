@@ -14,12 +14,11 @@
 ?>
 
 <div class="wrap">
-	<h1><?php esc_html_e( 'CL Photo Contest Admin', 'cl-photo-contest' ); ?></h1>
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Photo Contests', 'cl-photo-contest' ); ?></h1>
+	<a href="<?php echo admin_url( 'admin.php?page=cl-photo-contest-new' ); // WPCS: XSS ok. ?>" class="page-title-action"><?php esc_html_e( 'Add new', 'cl-photo-contest' ); ?></a>
+	<hr class="wp-header-end">
 
-	<div class="">
-		<button calss="button button-primary"><?php esc_html_e( 'Create new contest', 'cl-photo-contest' ); ?></button>
-	</div>
-
+<!--
 	<div>
 		<h3><?php esc_html_e( 'Contest list', 'cl-photo-contest' ); ?></h3>
 		<ul>
@@ -28,4 +27,5 @@
 			<li>Tercer concurso</li>
 		</ul>
 	</div>
+-->
 </div>

@@ -57,6 +57,9 @@ class Cl_Photo_Contest_Admin {
 		add_menu_page( esc_html__( 'Admin Photo Contest', 'cl-photo-contest' ), esc_html__( 'Photo Contests', 'cl-photo-contest' ), 'edit_pages', CL_PHOTO_CONTEST_PLUGIN_NAME, array( $this, 'show_admin_page_main' ), 'dashicons-images-alt', '26' );
 
 		add_submenu_page( CL_PHOTO_CONTEST_PLUGIN_NAME, esc_html__( 'Contest Stats', 'cl-photo-contest' ), esc_html__( 'Stats', 'cl-photo-contest' ), 'edit_pages', 'cl-photo-contest-submenu-stats', array( $this, 'show_admin_page_stats' ) );
+
+		// Pages without menu entry.
+		add_submenu_page( null, null, null, 'edit_pages', 'cl-photo-contest-new', array( $this, 'show_admin_page_contest_new' ) );
 	}
 
 	/**
@@ -77,5 +80,15 @@ class Cl_Photo_Contest_Admin {
 	 */
 	public function show_admin_page_stats() {
 		require_once CL_PHOTO_CONTEST_PLUGIN_PATH . 'admin/partials/cl-photo-contest-admin-stats.php';
+	}
+
+	/**
+	 * Admin menu method for show stats page.
+	 *
+	 * @since    1.0.0
+	 * @access   public
+	 */
+	public function show_admin_page_contest_new() {
+		require_once CL_PHOTO_CONTEST_PLUGIN_PATH . 'admin/partials/cl-photo-contest-admin-new.php';
 	}
 }
