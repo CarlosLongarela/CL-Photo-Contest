@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CL Photo Contest\n"
-"POT-Creation-Date: 2018-11-21 19:08+0100\n"
-"PO-Revision-Date: 2018-11-21 19:09+0100\n"
+"POT-Creation-Date: 2018-12-13 00:48+0100\n"
+"PO-Revision-Date: 2018-12-13 00:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carlos Longarela carlos@longarela.eu\n"
 "Language: es_ES\n"
@@ -21,36 +21,64 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: admin/class-cl-photo-contest-admin.php:106
+#: admin/class-cl-photo-contest-admin.php:57
 msgid "Admin Photo Contest"
 msgstr "Administración concurso fotográfico"
 
-#: admin/class-cl-photo-contest-admin.php:106
-msgid "Photo Contest"
-msgstr "Concurso fotográfico"
+#: admin/class-cl-photo-contest-admin.php:57
+#: admin/partials/cl-photo-contest-admin-main.php:17
+msgid "Photo Contests"
+msgstr "Concursos fotográficos"
 
-#: admin/class-cl-photo-contest-admin.php:107
-msgid "Contest"
-msgstr "Concurso"
+#: admin/class-cl-photo-contest-admin.php:59
+msgid "Contest Stats"
+msgstr "Estadísticas del concurso"
 
-#: admin/class-cl-photo-contest-admin.php:107
-msgid "Contest creation"
-msgstr "Creación de concurso"
+#: admin/class-cl-photo-contest-admin.php:59
+msgid "Stats"
+msgstr "Estadísticas"
 
-#: admin/class-cl-photo-contest-admin.php:108
-msgid "Photos"
-msgstr "Fotos"
+#: admin/partials/cl-photo-contest-admin-main.php:18
+msgid "Add new"
+msgstr "Añadir nuevo"
 
-#: admin/class-cl-photo-contest-admin.php:108
-msgid "Photos admin"
-msgstr "Administrador de fotos"
+#: admin/partials/cl-photo-contest-admin-main.php:23
+msgid "Contest list"
+msgstr "Lista de concursos"
+
+#: admin/partials/cl-photo-contest-admin-new.php:17
+#: admin/partials/cl-photo-contest-admin-new.php:53
+msgid "Add new Photo Contest"
+msgstr "Añadir nuevo concurso fotográfico"
+
+#: admin/partials/cl-photo-contest-admin-new.php:27
+msgid "Title"
+msgstr "Título"
+
+#: admin/partials/cl-photo-contest-admin-new.php:27
+#: admin/partials/cl-photo-contest-admin-new.php:35
+#: admin/partials/cl-photo-contest-admin-new.php:43
+msgid "required"
+msgstr "obligatorio"
+
+#: admin/partials/cl-photo-contest-admin-new.php:35
+msgid "Active from"
+msgstr "Activo desde"
+
+#: admin/partials/cl-photo-contest-admin-new.php:43
+msgid "Active until"
+msgstr "Activo hasta"
+
+#: admin/partials/cl-photo-contest-admin-stats.php:17
+msgid "CL Photo Contest Stats"
+msgstr "Estadísticas CL Photo Contest"
 
 #: includes/class-cl-photo-contest-pager.php:397
 #, php-format
 msgid "Page %1$d of %2$d"
 msgstr "Página %1$d de %2$d"
 
-#: includes/class-cl-photo-contest-shared.php:69
+#: includes/class-cl-photo-contest-shared.php:47
 msgid ""
 "The file system API could not be initialized, you do not have sufficient "
 "permissions"
@@ -58,24 +86,24 @@ msgstr ""
 "No se ha podido inicializar el API del sistema de archivos, no tienes "
 "permisos suficientes"
 
-#: includes/class-cl-photo-contest-shared.php:75
+#: includes/class-cl-photo-contest-shared.php:53
 msgid "Unable to access the file system"
 msgstr "No se ha podido acceder al sistema de archivos"
 
-#: public/class-cl-photo-contest-public.php:122
+#: public/class-cl-photo-contest-public.php:71
 msgid "There is no photo contest with that Id"
 msgstr "No hay concurso de fotos con ese ID"
 
-#: public/class-cl-photo-contest-public.php:128
+#: public/class-cl-photo-contest-public.php:77
 msgid "The contest start date has not yet arrived"
 msgstr "La fecha de inicio del concurso aún no ha llegado"
 
-#: public/class-cl-photo-contest-public.php:130
+#: public/class-cl-photo-contest-public.php:79
 msgid "The contest has finished"
 msgstr "El concurso ha terminado"
 
-#: public/class-cl-photo-contest-public.php:150
-#: public/class-cl-photo-contest-public.php:186
+#: public/class-cl-photo-contest-public.php:99
+#: public/class-cl-photo-contest-public.php:135
 msgid "You must provide a contest Id"
 msgstr "Debes proporcionar un ID de concurso"
 
@@ -139,6 +167,15 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Carlos Longarela"
 msgstr "Carlos Longarela"
+
+#~ msgid "Contest creation"
+#~ msgstr "Creación de concurso"
+
+#~ msgid "Photos"
+#~ msgstr "Fotos"
+
+#~ msgid "Photos admin"
+#~ msgstr "Administrador de fotos"
 
 #, fuzzy
 #~ msgid ""

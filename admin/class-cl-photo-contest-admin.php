@@ -63,6 +63,48 @@ class Cl_Photo_Contest_Admin {
 	}
 
 	/**
+	 * Create Photo Contest
+	 *
+	 * @param array $data Post data for new Photo Contest.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function add_photo_contest( $data ) {
+		global $wpdb;
+
+		$title     = esc_html( $data['contest_title'] );
+		$date_from = esc_attr( $data['contest_from_date'] );
+		$date_to   = esc_attr( $data['contest_to_date'] );
+		$date_now  = current_time( 'mysql' );
+
+		if ( empty( $title ) ) {
+			return esc_html__( 'Contest title can not be empty', 'cl-photo-contest' );
+		} elseif ( empty( $date_from ) ) {
+			return esc_html__( 'Contest active from date can not be empty', 'cl-photo-contest' );
+		} elseif ( empty( $date_to ) ) {
+			return esc_html__( 'Contest active until date can not be empty', 'cl-photo-contest' );
+		} elseif ( strtotime( $date_from ) >= strtotime( $date_to ) ) {
+			return esc_html__( 'Contest active until date must be greater than from date', 'cl-photo-contest' );
+		}
+
+		$res = $wpdb->insert(
+			"{$wpdb->prefix}cl_photo_contests",
+			array(
+				'creation_date' => $date_now,
+				'title'         => $title,
+				'active_from'   => date( 'Y-m-d H:i:s', strtotime( $date_from ) ),
+				'active_to'     => date( 'Y-m-d H:i:s', strtotime( $date_to ) ),
+			)
+		);
+
+		if ( false === $res ) {
+			return esc_html__( 'An error occurred while saving the new photo contest', 'cl-photo-contest' );
+		} else {
+			return true;
+		}
+	}
+	/**
 	 * Admin menu method for show principal page.
 	 *
 	 * @since    1.0.0
@@ -89,6 +131,15 @@ class Cl_Photo_Contest_Admin {
 	 * @access   public
 	 */
 	public function show_admin_page_contest_new() {
+		if ( ! empty( $_POST ) && check_admin_referer( 'cl_create_contest', 'cl_photo_contest_new' ) ) {
+			$res = $this->add_photo_contest( $_POST );
+
+			if ( true === $res ) {
+				$url = admin_url( 'admin.php?page=cl-photo-contest' );
+				wp_safe_redirect( $url );
+				exit;
+			}
+		}
 		require_once CL_PHOTO_CONTEST_PLUGIN_PATH . 'admin/partials/cl-photo-contest-admin-new.php';
 	}
 }
