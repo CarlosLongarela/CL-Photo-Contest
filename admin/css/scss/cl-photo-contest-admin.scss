@@ -2,3 +2,25 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+$green: #46b450;
+$red: #dc3232;
+$blue: #00a0d2;
+
+.cl-photo-contest-center {
+	margin: auto;
+	text-align: center;
+}
+
+.cl-contest-state-programmed {
+	color: $blue;
+}
+
+.cl-contest-state-active {
+	color: $green;
+	font-weight: 700;
+}
+
+.cl-contest-state-ended {
+	color: $red;
+}

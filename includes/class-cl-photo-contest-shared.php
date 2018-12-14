@@ -150,12 +150,11 @@ class Cl_Photo_Contest_Shared {
 				"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
 				FROM {$wpdb->prefix}cl_photo_contests_photos
 				WHERE id_contest = %d AND photo_validated = 1
-				ORDER BY id %s
+				ORDER BY id $order
 				LIMIT %d",
 				$id_contest,
-				$order,
 				$n_photos_show
-			) );
+			) ); // WPCS: unprepared SQL OK.
 		} else { // Second and consecutive pages.
 			$offset = absint( ( $page_num * $n_photos_show ) - 1 );
 			/**
@@ -166,12 +165,11 @@ class Cl_Photo_Contest_Shared {
 			$id_from = $wpdb->get_var( $wpdb->prepare(
 				"SELECT id FROM {$wpdb->prefix}cl_photo_contests_photos
 				WHERE id_contest = %d AND photo_validated = 1
-				ORDER BY id %s
+				ORDER BY id $order
 				LIMIT 1 OFFSET %d",
 				$id_contest,
-				$order,
 				$offset
-			) );
+			) ); // WPCS: unprepared SQL OK.
 
 			if ( 'ASC' === $order ) {
 				$res = $wpdb->get_results( $wpdb->prepare(

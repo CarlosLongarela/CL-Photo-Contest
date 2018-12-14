@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: CL Photo Contest\n"
-"POT-Creation-Date: 2018-12-13 00:48+0100\n"
-"PO-Revision-Date: 2018-12-13 00:50+0100\n"
+"POT-Creation-Date: 2018-12-14 01:19+0100\n"
+"PO-Revision-Date: 2018-12-14 01:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: Carlos Longarela carlos@longarela.eu\n"
 "Language: es_ES\n"
@@ -26,7 +26,7 @@ msgid "Admin Photo Contest"
 msgstr "Administración concurso fotográfico"
 
 #: admin/class-cl-photo-contest-admin.php:57
-#: admin/partials/cl-photo-contest-admin-main.php:17
+#: admin/partials/cl-photo-contest-admin-main.php:107
 msgid "Photo Contests"
 msgstr "Concursos fotográficos"
 
@@ -38,34 +38,93 @@ msgstr "Estadísticas del concurso"
 msgid "Stats"
 msgstr "Estadísticas"
 
-#: admin/partials/cl-photo-contest-admin-main.php:18
+#: admin/class-cl-photo-contest-admin.php:133
+msgid "Contest title can not be empty"
+msgstr "El título del concurso no puede estar vacío"
+
+#: admin/class-cl-photo-contest-admin.php:135
+msgid "Contest active from date can not be empty"
+msgstr "La fecha de activación desde del concurso no puede estar vacía"
+
+#: admin/class-cl-photo-contest-admin.php:137
+msgid "Contest active until date can not be empty"
+msgstr "La fecha de activación hasta del concurso no puede estar vacía"
+
+#: admin/class-cl-photo-contest-admin.php:139
+msgid "Contest active until date must be greater than from date"
+msgstr ""
+"La fecha de activación hasta del concurso debe ser mayor que la fecha desde"
+
+#: admin/class-cl-photo-contest-admin.php:153
+msgid "An error occurred while saving the new photo contest"
+msgstr "Se ha producido un error al guardar el nuevo concurso fotográfico"
+
+#: admin/partials/cl-photo-contest-admin-main.php:108
 msgid "Add new"
 msgstr "Añadir nuevo"
 
-#: admin/partials/cl-photo-contest-admin-main.php:23
-msgid "Contest list"
-msgstr "Lista de concursos"
+#: admin/partials/cl-photo-contest-admin-main.php:115
+msgid "Id"
+msgstr "Id"
 
-#: admin/partials/cl-photo-contest-admin-new.php:17
-#: admin/partials/cl-photo-contest-admin-new.php:53
-msgid "Add new Photo Contest"
-msgstr "Añadir nuevo concurso fotográfico"
+#: admin/partials/cl-photo-contest-admin-main.php:119
+msgid "State"
+msgstr "Estado"
 
-#: admin/partials/cl-photo-contest-admin-new.php:27
+#: admin/partials/cl-photo-contest-admin-main.php:122
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: admin/partials/cl-photo-contest-admin-main.php:125
+msgid "Creation date"
+msgstr "Fecha de creación"
+
+#: admin/partials/cl-photo-contest-admin-main.php:129
+#: admin/partials/cl-photo-contest-admin-new.php:50
 msgid "Title"
 msgstr "Título"
 
-#: admin/partials/cl-photo-contest-admin-new.php:27
-#: admin/partials/cl-photo-contest-admin-new.php:35
-#: admin/partials/cl-photo-contest-admin-new.php:43
-msgid "required"
-msgstr "obligatorio"
-
-#: admin/partials/cl-photo-contest-admin-new.php:35
+#: admin/partials/cl-photo-contest-admin-main.php:133
+#: admin/partials/cl-photo-contest-admin-new.php:58
 msgid "Active from"
 msgstr "Activo desde"
 
-#: admin/partials/cl-photo-contest-admin-new.php:43
+#: admin/partials/cl-photo-contest-admin-main.php:137
+msgid "Active to"
+msgstr "Activo hasta"
+
+#: admin/partials/cl-photo-contest-admin-main.php:147
+msgid "Active"
+msgstr "Activo"
+
+#: admin/partials/cl-photo-contest-admin-main.php:149
+msgid "Ended"
+msgstr "Finalizado"
+
+#: admin/partials/cl-photo-contest-admin-main.php:151
+msgid "Programmed"
+msgstr "Programado"
+
+#: admin/partials/cl-photo-contest-admin-new.php:24
+#: admin/partials/cl-photo-contest-admin-new.php:76
+msgid "Add new Photo Contest"
+msgstr "Añadir nuevo concurso fotográfico"
+
+#: admin/partials/cl-photo-contest-admin-new.php:29
+msgid "Photo contest added"
+msgstr "Concurso fotográfico añadido"
+
+#: admin/partials/cl-photo-contest-admin-new.php:30
+msgid "Return to photo contests"
+msgstr "Volver a concursos fotográficos"
+
+#: admin/partials/cl-photo-contest-admin-new.php:50
+#: admin/partials/cl-photo-contest-admin-new.php:58
+#: admin/partials/cl-photo-contest-admin-new.php:66
+msgid "required"
+msgstr "obligatorio"
+
+#: admin/partials/cl-photo-contest-admin-new.php:66
 msgid "Active until"
 msgstr "Activo hasta"
 
@@ -167,6 +226,9 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Carlos Longarela"
 msgstr "Carlos Longarela"
+
+#~ msgid "Contest list"
+#~ msgstr "Lista de concursos"
 
 #~ msgid "Contest creation"
 #~ msgstr "Creación de concurso"

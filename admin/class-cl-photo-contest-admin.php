@@ -63,6 +63,57 @@ class Cl_Photo_Contest_Admin {
 	}
 
 	/**
+	 * List Photo Contests
+	 *
+	 * @param string $order_field Field to order the query.
+	 * @param string $order       Order ASC or DESC.
+	 * @param int    $limit       Number or registers to return.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function get_photo_contests( $order_field = 'creation_date', $order = 'ASC', $limit = 30 ) {
+		global $wpdb;
+
+		if ( 'ASC' === $order ) {
+			$order = 'ASC';
+		} else {
+			$order = 'DESC';
+		}
+
+		switch ( $order_field ) {
+			case 'creation_date':
+				$order_field = 'creation_date';
+				break;
+			case 'id':
+				$order_field = 'id';
+				break;
+			case 'title':
+				$order_field = 'title';
+				break;
+			case 'active_from':
+				$order_field = 'active_from';
+				break;
+			case 'active_to':
+				$order_field = 'active_to';
+				break;
+			default:
+				$order_field = 'creation_date';
+				break;
+		}
+
+		$res = $wpdb->get_results( $wpdb->prepare(
+			"SELECT id, creation_date, title, active_from, active_to
+			FROM {$wpdb->prefix}cl_photo_contests
+			ORDER BY $order_field $order
+			LIMIT %d",
+			$limit
+		) ); // WPCS: unprepared SQL OK.
+
+		return $res;
+	}
+
+	/**
 	 * Create Photo Contest
 	 *
 	 * @param array $data Post data for new Photo Contest.
@@ -131,15 +182,6 @@ class Cl_Photo_Contest_Admin {
 	 * @access   public
 	 */
 	public function show_admin_page_contest_new() {
-		if ( ! empty( $_POST ) && check_admin_referer( 'cl_create_contest', 'cl_photo_contest_new' ) ) {
-			$res = $this->add_photo_contest( $_POST );
-
-			if ( true === $res ) {
-				$url = admin_url( 'admin.php?page=cl-photo-contest' );
-				wp_safe_redirect( $url );
-				exit;
-			}
-		}
 		require_once CL_PHOTO_CONTEST_PLUGIN_PATH . 'admin/partials/cl-photo-contest-admin-new.php';
 	}
 }
