@@ -35,7 +35,8 @@ class Cl_Photo_Contest_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'admin/css/cl-photo-contest-admin.min.css', array(), CL_PHOTO_CONTEST_PLUGIN_VERSION, 'all' );
+		// phpcs:ignore
+		wp_enqueue_style( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'admin/css/cl-photo-contest-admin.min.css', array(), null, 'all' );
 	}
 
 	/**
@@ -44,7 +45,8 @@ class Cl_Photo_Contest_Admin {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'admin/js/cl-photo-contest-admin.min.js', array( 'jquery' ), CL_PHOTO_CONTEST_PLUGIN_VERSION, false );
+		// phpcs:ignore
+		wp_enqueue_script( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'admin/js/cl-photo-contest-admin.min.js', array(), null, true );
 	}
 
 	/**
@@ -102,13 +104,17 @@ class Cl_Photo_Contest_Admin {
 				break;
 		}
 
-		$res = $wpdb->get_results( $wpdb->prepare(
-			"SELECT id, creation_date, title, active_from, active_to
-			FROM {$wpdb->prefix}cl_photo_contests
-			ORDER BY $order_field $order
-			LIMIT %d",
-			$limit
-		) ); // WPCS: unprepared SQL OK.
+		// phpcs:disable
+		$res = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id, creation_date, title, active_from, active_to
+				FROM {$wpdb->prefix}cl_photo_contests
+				ORDER BY $order_field $order
+				LIMIT %d",
+				$limit
+			)
+		);
+		// phpcs:enable
 
 		return $res;
 	}

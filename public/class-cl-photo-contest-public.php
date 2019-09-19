@@ -35,7 +35,8 @@ class Cl_Photo_Contest_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-		wp_enqueue_style( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'public/css/cl-photo-contest-public.min.css', array(), CL_PHOTO_CONTEST_PLUGIN_VERSION, 'all' );
+		// phpcs:ignore
+		wp_enqueue_style( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'public/css/cl-photo-contest-public.min.css', array(), null, 'all' );
 	}
 
 	/**
@@ -44,7 +45,8 @@ class Cl_Photo_Contest_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'public/js/cl-photo-contest-public.min.js', array( 'jquery' ), CL_PHOTO_CONTEST_PLUGIN_VERSION, false );
+		// phpcs:ignore
+		wp_enqueue_script( CL_PHOTO_CONTEST_PLUGIN_NAME, CL_PHOTO_CONTEST_PLUGIN_URL . 'public/js/cl-photo-contest-public.min.js', array(), null, true );
 	}
 
 	/**
@@ -57,10 +59,12 @@ class Cl_Photo_Contest_Public {
 	protected function get_valid_contest( $id_contest ) {
 		global $wpdb;
 
-		$res = $wpdb->get_row( $wpdb->prepare(
-			"SELECT id, active_from, active_to FROM {$wpdb->prefix}cl_photo_contests WHERE id = %d",
-			$id_contest
-		) );
+		$res = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT id, active_from, active_to FROM {$wpdb->prefix}cl_photo_contests WHERE id = %d",
+				$id_contest
+			)
+		);
 
 		$res->id;
 		$res->active_from;

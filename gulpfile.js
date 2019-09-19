@@ -1,107 +1,126 @@
+var AppName = 'plugin-name';
+
 var gulp         = require( 'gulp' ),
+	ts           = require( 'gulp-typescript' ),
 	uglify       = require( 'gulp-uglify' ),
 	sass         = require( 'gulp-sass' ),
-	autoprefixer = require( 'gulp-autoprefixer' ),
-	cssnano      = require( 'gulp-cssnano' ),
+	autoprefixer = require( 'autoprefixer' ),
+	postcss      = require( 'gulp-postcss' ),
+	cssnano      = require( 'cssnano' ),
 	plumber      = require( 'gulp-plumber' ),
 	concat       = require( 'gulp-concat' ),
 	notify       = require( 'gulp-notify' ),
 	sourcemaps   = require( 'gulp-sourcemaps' );
 
-var AdminJS = [
-	'./admin/js/src/cl-photo-contest-admin.js',
+var tsconfig = require( './tsconfig.json' );
+
+var AdminTS = [
+	'./admin/js/src/' + AppName + '-admin.ts',
 ];
 
-var PublicJS = [
-	'./public/js/src/cl-photo-contest-public.js',
+var PublicTS = [
+	'./public/js/src/' + AppName + '-public.ts',
 ];
 
 var AdminSCSS = [
-	'./admin/css/scss/cl-photo-contest-admin.scss',
+	'./admin/css/scss/' + AppName + '-admin.scss',
 ];
 
 var PublicSCSS = [
-	'./public/css/scss/cl-photo-contest-public.scss',
+	'./public/css/scss/' + AppName + '-public.scss',
+];
+
+var plugins = [
+	autoprefixer( 'last 2 versions', '> 5%', 'not ie 6-9' ),
+	cssnano()
 ];
 
 /** Js Tasks */
 gulp.task( 'admin-scripts', function() {
-	return gulp.src( AdminJS )
+	var js_dest      = 'admin/js';
+	var js_post_name = '-admin.min.js';
+
+	return gulp.src( AdminTS )
+		.pipe( ts( tsconfig.compilerOptions ) )
 		.pipe( sourcemaps.init() )
-		// An identity sourcemap will be generated at this step
 		.pipe( sourcemaps.identityMap() )
 		.pipe( plumber() )
-		.pipe( concat( 'cl-photo-contest-admin.min.js' ) )
+		.pipe( concat( AppName + js_post_name ) )
 		.pipe( uglify() )
 		.pipe( sourcemaps.write( './maps' ) )
-		.pipe( gulp.dest( 'admin/js' ) )
+		.pipe( gulp.dest( js_dest ) )
 		.pipe( notify( {
-			title: 'Resultado tarea Gulp JS:',
-			message: 'Admin .min creado',
+			title: 'Gulp ADMIN JS Task Result:',
+			message: 'Admin [/' + js_dest + '/' + AppName + js_post_name + '] created.',
 			onLast: true
 		} ) );
 } );
 
 gulp.task( 'public-scripts', function() {
-	return gulp.src( PublicJS )
+	var js_dest      = 'public/js';
+	var js_post_name = '-public.min.js';
+
+	return gulp.src( PublicTS )
+		.pipe( ts( tsconfig.compilerOptions ) )
 		.pipe( sourcemaps.init() )
-		// An identity sourcemap will be generated at this step
 		.pipe( sourcemaps.identityMap() )
 		.pipe( plumber() )
-		.pipe( concat( 'cl-photo-contest-public.min.js' ) )
+		.pipe( concat( AppName + js_post_name ) )
 		.pipe( uglify() )
 		.pipe( sourcemaps.write( './maps' ) )
-		.pipe( gulp.dest( 'public/js' ) )
+		.pipe( gulp.dest( js_dest ) )
 		.pipe( notify( {
-			title: 'Resultado tarea Gulp JS:',
-			message: 'Public .min creado',
+			title: 'Gulp PUBLIC JS Task Result:',
+			message: 'Public [/' + js_dest + '/' + AppName + js_post_name + '] created.',
 			onLast: true
 		} ) );
 } );
 
 /** SCSS Tasks */
 gulp.task( 'admin-scss', function() {
+	var css_dest      = 'admin/css';
+	var css_post_name = '-admin.min.css';
+
 	return gulp.src( AdminSCSS )
 		.pipe( sourcemaps.init() )
-		// An identity sourcemap will be generated at this step
 		.pipe( sourcemaps.identityMap() )
 		.pipe( plumber() )
-		.pipe( concat( 'cl-photo-contest-admin.min.css' ) )
+		.pipe( concat( AppName + css_post_name ) )
 		.pipe( sass().on( 'error', sass.logError ) )
-		.pipe( autoprefixer( 'last 2 versions', '> 5%', 'not ie 6-9') )
-		.pipe( cssnano() )
+		.pipe( postcss( plugins ) )
 		.pipe( sourcemaps.write( './maps' ) )
-		.pipe( gulp.dest( 'admin/css' ) )
+		.pipe( gulp.dest( css_dest ) )
 		.pipe( notify( {
-			title: 'Resultado tarea Gulp CSS:',
-			message: 'Admin .min creado',
+			title: 'Gulp ADMIN CSS Task Result:',
+			message: 'Admin [/' + css_dest + '/' + AppName + css_post_name + '] created.',
 			onLast: true
 		} ) );
 } );
 
 gulp.task( 'public-scss', function() {
+	var css_dest      = 'public/css';
+	var css_post_name = '-public.min.css';
+
 	return gulp.src( PublicSCSS )
 		.pipe( sourcemaps.init() )
-		// An identity sourcemap will be generated at this step
 		.pipe( sourcemaps.identityMap() )
 		.pipe( plumber() )
-		.pipe( concat( 'cl-photo-contest-public.min.css' ) )
+		.pipe( concat( AppName + css_post_name ) )
 		.pipe( sass().on( 'error', sass.logError ) )
-		.pipe( autoprefixer( 'last 2 versions', '> 5%', 'not ie 6-9') )
-		.pipe( cssnano() )
+		.pipe( postcss( plugins ) )
 		.pipe( sourcemaps.write( './maps' ) )
-		.pipe( gulp.dest( 'public/css' ) )
+		.pipe( gulp.dest( css_dest ) )
 		.pipe( notify( {
-			title: 'Resultado tarea Gulp CSS:',
-			message: 'Public .min creado',
+			title: 'Gulp PUBLIC CSS Task Result:',
+			message: 'Public [/' + css_dest + '/' + AppName + css_post_name + '] created.',
 			onLast: true
 		} ) );
 } );
 
 gulp.task( 'watch', function() {
-	// Inspect changes in js files.
-	gulp.watch( AdminJS, gulp.series( 'admin-scripts' ) );
-	gulp.watch( PublicJS, gulp.series( 'public-scripts' ) );
+	// Inspect changes in ts files.
+	gulp.watch( AdminTS, gulp.series( 'admin-scripts' ) );
+	gulp.watch( PublicTS, gulp.series( 'public-scripts' ) );
 
 	// Inspect changes in scss files.
 	gulp.watch( AdminSCSS, gulp.series( 'admin-scss' ) );
