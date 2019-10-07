@@ -56,7 +56,7 @@ class Cl_Photo_Contest_Shared {
 		$wp_filesystem->put_contents(
 			$file_path,
 			$data,
-			FS_CHMOD_FILE // Permisos de archivo predefinidos para WP.
+			FS_CHMOD_FILE // Predefined WP file system permissions.
 		);
 	}
 
@@ -80,7 +80,7 @@ class Cl_Photo_Contest_Shared {
 			$res['image_mode'] = 'landscape';
 		} elseif ( 1 === $res['image_proportion'] ) { // Image is square (1:1).
 			$res['image_mode'] = 'square';
-		} else { // Image is portrait mode.
+		} else { // Image is in portrait mode.
 			$res['image_mode'] = 'portrait';
 		}
 
