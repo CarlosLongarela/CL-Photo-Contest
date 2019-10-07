@@ -97,7 +97,7 @@ class Cl_Photo_Contest_Shared {
 	}
 
 	/**
-	 * Resize a image and save serult file.
+	 * Resize a image and save result file.
 	 *
 	 * @param string $image_path     Original image path.
 	 * @param int    $image_quality  New image quality from 0 to 100 (default 70).
