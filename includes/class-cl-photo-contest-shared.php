@@ -93,7 +93,7 @@ class Cl_Photo_Contest_Shared {
 	 * @param array $file    File array.
 	 */
 	public function cl_upload_file( $file ) {
-		$upload = wp_upload_bits( $file['name'], '', wp_remote_get( $file['tmp_name'] ) );
+		$upload = wp_upload_bits( $file['name'], null, wp_remote_get( $file['tmp_name'] ) );
 	}
 
 	/**
@@ -123,10 +123,12 @@ class Cl_Photo_Contest_Shared {
 		global $wpdb;
 
 		$n_photos = 0;
-		$n_photos = $wpdb->get_var( $wpdb->prepare(
-			"SELECT COUNT(id) FROM {$wpdb->prefix}cl_photo_contests_photos WHERE id_contest = %d AND photo_validated = 1",
-			$id_contest
-		) );
+		$n_photos = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(id) FROM {$wpdb->prefix}cl_photo_contests_photos WHERE id_contest = %d AND photo_validated = 1",
+				$id_contest
+			)
+		);
 
 		return $n_photos;
 	}
@@ -146,15 +148,17 @@ class Cl_Photo_Contest_Shared {
 		$order         = esc_attr( $order );
 
 		if ( 1 === $page_num ) { // First page.
-			$res = $wpdb->get_results( $wpdb->prepare(
-				"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
-				FROM {$wpdb->prefix}cl_photo_contests_photos
-				WHERE id_contest = %d AND photo_validated = 1
-				ORDER BY id $order
-				LIMIT %d",
-				$id_contest,
-				$n_photos_show
-			) ); // WPCS: unprepared SQL OK.
+			$res = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
+					FROM {$wpdb->prefix}cl_photo_contests_photos
+					WHERE id_contest = %d AND photo_validated = 1
+					ORDER BY id $order
+					LIMIT %d",
+					$id_contest,
+					$n_photos_show
+				)
+			); // phpcs:ignore
 		} else { // Second and consecutive pages.
 			$offset = absint( ( $page_num * $n_photos_show ) - 1 );
 			/**
@@ -162,37 +166,43 @@ class Cl_Photo_Contest_Shared {
 			 * https://www.eversql.com/faster-pagination-in-mysql-why-order-by-with-limit-and-offset-is-slow/
 			 * https://use-the-index-luke.com/es/sql/resultados-parciales/paginar
 			 */
-			$id_from = $wpdb->get_var( $wpdb->prepare(
-				"SELECT id FROM {$wpdb->prefix}cl_photo_contests_photos
-				WHERE id_contest = %d AND photo_validated = 1
-				ORDER BY id $order
-				LIMIT 1 OFFSET %d",
-				$id_contest,
-				$offset
-			) ); // WPCS: unprepared SQL OK.
+			$id_from = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT id FROM {$wpdb->prefix}cl_photo_contests_photos
+					WHERE id_contest = %d AND photo_validated = 1
+					ORDER BY id $order
+					LIMIT 1 OFFSET %d",
+					$id_contest,
+					$offset
+				)
+			); // phpcs:ignore
 
 			if ( 'ASC' === $order ) {
-				$res = $wpdb->get_results( $wpdb->prepare(
-					"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
-					FROM {$wpdb->prefix}cl_photo_contests_photos
-					WHERE id > %d AND id_contest = %d AND photo_validated = 1
-					ORDER BY id ASC
-					LIMIT %d",
-					$id_from,
-					$id_contest,
-					$n_photos_show
-				) );
+				$res = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
+						FROM {$wpdb->prefix}cl_photo_contests_photos
+						WHERE id > %d AND id_contest = %d AND photo_validated = 1
+						ORDER BY id ASC
+						LIMIT %d",
+						$id_from,
+						$id_contest,
+						$n_photos_show
+					)
+				);
 			} else {
-				$res = $wpdb->get_results( $wpdb->prepare(
-					"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
-					FROM {$wpdb->prefix}cl_photo_contests_photos
-					WHERE id < %d AND id_contest = %d AND photo_validated = 1
-					ORDER BY id DESC
-					LIMIT %d",
-					$id_from,
-					$id_contest,
-					$n_photos_show
-				) );
+				$res = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
+						FROM {$wpdb->prefix}cl_photo_contests_photos
+						WHERE id < %d AND id_contest = %d AND photo_validated = 1
+						ORDER BY id DESC
+						LIMIT %d",
+						$id_from,
+						$id_contest,
+						$n_photos_show
+					)
+				);
 			}
 		}
 
