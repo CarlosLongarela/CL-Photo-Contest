@@ -125,7 +125,7 @@ class Cl_Photo_Contest_Shared {
 		$n_photos = 0;
 		$n_photos = $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(id) FROM {$wpdb->prefix}cl_photo_contests_photos WHERE id_contest = %d AND photo_validated = 1",
+				'"SELECT COUNT(id) FROM ' . $wpdb->prefix . 'cl_photo_contests_photos WHERE id_contest = %d AND photo_validated = 1',
 				$id_contest
 			)
 		);
@@ -139,26 +139,29 @@ class Cl_Photo_Contest_Shared {
 	 * @param int    $id_contest    Id contest to obtain photos data.
 	 * @param int    $page_num      Number of page to show.
 	 * @param int    $n_photos_show Number of photos to show in actual page.
-	 * @param string $order      Databse order for results.
+	 * @param string $order         Databse order for results.
 	 */
 	public function get_contest_photos_data( $id_contest, $page_num, $n_photos_show, $order = 'DESC' ) {
 		$id_contest    = absint( $id_contest );
 		$page_num      = absint( $page_num );
 		$n_photos_show = absint( $n_photos_show );
-		$order         = esc_attr( $order );
+		$order_by      = sanitize_sql_orderby( ' id ' . $order );
 
 		if ( 1 === $page_num ) { // First page.
 			$res = $wpdb->get_results(
+				// phpcs:disable
+				// TODO: Fix phpcs prepare with $order_by
 				$wpdb->prepare(
-					"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
-					FROM {$wpdb->prefix}cl_photo_contests_photos
+					'SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
+					FROM ' . $wpdb->prefix . 'cl_photo_contests_photos
 					WHERE id_contest = %d AND photo_validated = 1
-					ORDER BY id $order
-					LIMIT %d",
+					ORDER BY ' . $order_by . '
+					LIMIT %d',
 					$id_contest,
 					$n_photos_show
 				)
-			); // phpcs:ignore
+				// phpcs:enable
+			);
 		} else { // Second and consecutive pages.
 			$offset = absint( ( $page_num * $n_photos_show ) - 1 );
 			/**
@@ -167,24 +170,27 @@ class Cl_Photo_Contest_Shared {
 			 * https://use-the-index-luke.com/es/sql/resultados-parciales/paginar
 			 */
 			$id_from = $wpdb->get_var(
+				// phpcs:disable
+				// TODO: Fix phpcs prepare with $order_by
 				$wpdb->prepare(
-					"SELECT id FROM {$wpdb->prefix}cl_photo_contests_photos
+					'SELECT id FROM ' . $wpdb->prefix . 'cl_photo_contests_photos
 					WHERE id_contest = %d AND photo_validated = 1
-					ORDER BY id $order
-					LIMIT 1 OFFSET %d",
+					ORDER BY ' . $order_by . '
+					LIMIT 1 OFFSET %d',
 					$id_contest,
 					$offset
 				)
-			); // phpcs:ignore
+				// phpcs:enable
+			);
 
 			if ( 'ASC' === $order ) {
 				$res = $wpdb->get_results(
 					$wpdb->prepare(
-						"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
-						FROM {$wpdb->prefix}cl_photo_contests_photos
+						'SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
+						FROM ' . $wpdb->prefix . 'cl_photo_contests_photos
 						WHERE id > %d AND id_contest = %d AND photo_validated = 1
 						ORDER BY id ASC
-						LIMIT %d",
+						LIMIT %d',
 						$id_from,
 						$id_contest,
 						$n_photos_show
@@ -193,11 +199,11 @@ class Cl_Photo_Contest_Shared {
 			} else {
 				$res = $wpdb->get_results(
 					$wpdb->prepare(
-						"SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
-						FROM {$wpdb->prefix}cl_photo_contests_photos
+						'SELECT author_name, author_mail, photo_title, photo_size_bytes, photo_comment, upload_date
+						FROM ' . $wpdb->prefix . 'cl_photo_contests_photos
 						WHERE id < %d AND id_contest = %d AND photo_validated = 1
 						ORDER BY id DESC
-						LIMIT %d",
+						LIMIT %d',
 						$id_from,
 						$id_contest,
 						$n_photos_show
